@@ -1,7 +1,7 @@
 package com.example.demo.security.jwt;
 
 import com.example.demo.model.UserApp;
-import com.example.demo.service.UserServiceImpl;
+import com.example.demo.service.implementation.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

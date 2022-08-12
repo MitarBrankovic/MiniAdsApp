@@ -1,8 +1,10 @@
-package com.example.demo.service;
+package com.example.demo.service.implementation;
 
 import com.example.demo.dto.UserRegistrationDto;
 import com.example.demo.model.UserApp;
+import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,6 +21,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private RoleRepository roleRepository;
+
     @Override
     public void saveUser(UserRegistrationDto userRegistrationDTO) {
         int strength = 10; // work factor of bcrypt
@@ -29,7 +34,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         userRepository.save(new UserApp(userRegistrationDTO.getUsername(),
                 encodedPassword,
                 userRegistrationDTO.getFirstName(),
-                userRegistrationDTO.getLastName()));
+                userRegistrationDTO.getLastName(),
+                userRegistrationDTO.getPhoneNumber(),
+                userRegistrationDTO.getDateOfRegistration(),
+                roleRepository.findById(1L).orElseThrow()));
     }
 
     @Override

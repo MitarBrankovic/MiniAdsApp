@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
 public class UserApp implements Serializable, UserDetails {
 
     @Id
-    @SequenceGenerator(name = "userIdSeqGen", sequenceName = "userIdSeqGen", initialValue = 5, allocationSize = 1)
+    @SequenceGenerator(name = "userIdSeqGen", sequenceName = "userIdSeqGen", initialValue = 1, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userIdSeqGen")
     private Long id;
 
@@ -33,6 +34,12 @@ public class UserApp implements Serializable, UserDetails {
     @Column
     private String lastName;
 
+    @Column
+    private String phoneNumber;
+
+    @Column
+    private LocalDateTime dateOfRegistration;
+
     @ManyToOne()
     @JoinColumn(name = "role_id")
     private Role role;
@@ -42,6 +49,18 @@ public class UserApp implements Serializable, UserDetails {
         List<Role> collection = new ArrayList<>();
         collection.add(this.role);
         return collection;
+    }
+
+    public UserApp() {}
+
+    public UserApp(String username, String password, String firstName, String lastName, String phoneNumber, LocalDateTime dateOfRegistration, Role role) {
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.dateOfRegistration = dateOfRegistration;
+        this.role = role;
     }
 
     @Override
@@ -64,13 +83,5 @@ public class UserApp implements Serializable, UserDetails {
         return false;
     }
 
-    public UserApp() {}
 
-    public UserApp(String username, String password, String firstName, String lastName, Role role) {
-        this.username = username;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.role = role;
-    }
 }

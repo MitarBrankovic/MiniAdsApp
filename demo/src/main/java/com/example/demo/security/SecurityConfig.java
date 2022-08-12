@@ -2,7 +2,7 @@ package com.example.demo.security;
 
 import com.example.demo.security.jwt.JwtFilter;
 import com.example.demo.security.jwt.JwtUtils;
-import com.example.demo.service.UserServiceImpl;
+import com.example.demo.service.implementation.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

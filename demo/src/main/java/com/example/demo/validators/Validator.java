@@ -14,7 +14,8 @@ public class Validator {
                 && passwordConstraintValidator.isValid(dto.getPassword(), null)
                 && dto.getFirstName() != ""
                 && dto.getLastName() != ""
-                && dto.getDateOfBirth().isBefore(LocalDateTime.now());
+                //&& dto.getDateOfBirth().isBefore(LocalDateTime.now());
+                && dto.getPhoneNumber() != "";
     }
 
 

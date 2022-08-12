@@ -17,15 +17,18 @@ public class UserRegistrationDto {
 
     private String lastName;
 
-    private LocalDateTime dateOfBirth;
+    private String phoneNumber;
+
+    private LocalDateTime dateOfRegistration;
 
     public UserRegistrationDto(){}
 
-    public UserRegistrationDto(String username, String password, String firstName, String lastName, LocalDateTime dateOfBirth) {
+    public UserRegistrationDto(String username, String password, String firstName, String lastName, String phoneNumber, LocalDateTime dateOfRegistration) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.dateOfBirth = dateOfBirth;
+        this.phoneNumber = phoneNumber;
+        this.dateOfRegistration = dateOfRegistration;
     }
 }
