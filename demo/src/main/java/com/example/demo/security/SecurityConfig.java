@@ -50,6 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests().antMatchers("/").permitAll()
                 .antMatchers("/api/user/getUsers").permitAll()
+                .antMatchers("/api/user/login").permitAll()
                 .and()
                 .addFilterBefore(new JwtFilter(jwtUtils, userService), BasicAuthenticationFilter.class)
                 .exceptionHandling().authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));

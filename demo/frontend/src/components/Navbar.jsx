@@ -1,6 +1,23 @@
 import React, { Component } from 'react';
 
+
 class Navbar extends Component {
+
+    constructor(props) {
+        super(props)
+
+        this.state = {
+
+        }
+
+    }
+    
+
+    
+    redirectLogin(){
+        this.props.history.push('/login');
+    }
+    
     render() {
         return (
             <div>
@@ -19,7 +36,7 @@ class Navbar extends Component {
 
                     <div id="navbarBasicExample" className="navbar-menu">
                         <div className="navbar-start">
-                        <a class="navbar-item">
+                        <a className="navbar-item">
                             Home
                         </a>
 
@@ -27,27 +44,27 @@ class Navbar extends Component {
                             Documentation
                         </a>
 
-                        <div className="navbar-item has-dropdown is-hoverable">
-                            <a className="navbar-link">
-                            More
-                            </a>
+                            <div className="navbar-item has-dropdown is-hoverable">
+                                <a className="navbar-link">
+                                More
+                                </a>
 
-                            <div className="navbar-dropdown">
-                            <a className="navbar-item">
-                                About
-                            </a>
-                            <a className="navbar-item">
-                                Jobs
-                            </a>
-                            <a className="navbar-item">
-                                Contact
-                            </a>
-                            <hr className="navbar-divider"/>
-                            <a className="navbar-item">
-                                Report an issue
-                            </a>
+                                <div className="navbar-dropdown">
+                                    <a className="navbar-item">
+                                        About
+                                    </a>
+                                    <a className="navbar-item">
+                                        Jobs
+                                    </a>
+                                    <a className="navbar-item">
+                                        Contact
+                                    </a>
+                                    <hr className="navbar-divider"/>
+                                    <a className="navbar-item">
+                                        Report an issue
+                                    </a>
+                                </div>
                             </div>
-                        </div>
                         </div>
 
                         <div className="navbar-end">
@@ -56,9 +73,9 @@ class Navbar extends Component {
                             <a className="button is-primary">
                                 <strong>Sign up</strong>
                             </a>
-                            <a className="button is-light">
+                            <button className="button is-light" onClick={this.redirectLogin.bind(this)}>
                                 Log in
-                            </a>
+                            </button>
                             </div>
                         </div>
                         </div>
