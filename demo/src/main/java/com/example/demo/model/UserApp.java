@@ -83,5 +83,8 @@ public class UserApp implements Serializable, UserDetails {
         return false;
     }
 
-
+    @Override
+    public String getUsername() {
+        return username;
+    }
 }
