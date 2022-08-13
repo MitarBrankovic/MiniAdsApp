@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import UserService from '../services/UserService';
+import { useNavigate } from "react-router-dom";
+import { withRouter } from 'react-router-dom';
 
 class Login extends Component {
 
@@ -8,11 +10,14 @@ class Login extends Component {
 
         this.state = {
             username: '',
-            password: ''
+            password: '',
+            loggedUser: ''
         }
         this.changeUsernameHandler = this.changeUsernameHandler.bind(this);
         this.changePasswordHandler = this.changePasswordHandler.bind(this);
+        this.loggedUser = UserService.loggedUser;
 
+        
     }
 
     changeUsernameHandler(e) {
@@ -28,14 +33,17 @@ class Login extends Component {
         e.preventDefault();
         let loginForm = { username: this.state.username, password: this.state.password };
         UserService.login(loginForm).then((res) => {
-            localStorage.setItem('user', JSON.stringify(res.user))
-            localStorage.setItem('jwtToken', JSON.stringify(res.token))
+            //UserService.loggedUser = res.data.user;
+            localStorage.setItem('user', JSON.stringify(res.data.user))
+            localStorage.setItem('jwtToken', JSON.stringify(res.data.token))
             this.props.history.push('/');
+            window.location.reload(false)
         }).catch((err) => {
             console.log(err);
         });
 
     }
+
 
 
     render() {

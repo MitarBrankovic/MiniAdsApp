@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { withRouter } from 'react-router-dom';
 
 class Navbar extends Component {
 
@@ -7,15 +7,39 @@ class Navbar extends Component {
         super(props)
 
         this.state = {
-
+            loggedUser: JSON.parse(localStorage.getItem('user'))
         }
 
     }
     
+    componentDidMount() {
+        this.loggedUser = JSON.parse(localStorage.getItem('user'))
+    }
 
+    redirectHome(){
+        this.props.history.push('/');
+        window.location.reload()
+    }
     
     redirectLogin(){
         this.props.history.push('/login');
+        window.location.reload()
+    }
+
+    proveri(){
+        if(this.state.loggedUser !== null){
+            alert("true")
+            return true
+        }else{
+            alert("false")
+            return false
+        }
+    }
+
+    logout(){
+        localStorage.removeItem('user')
+        localStorage.removeItem('token')
+        window.location.reload()
     }
     
     render() {
@@ -23,7 +47,7 @@ class Navbar extends Component {
             <div>
                 <nav className="navbar" role="navigation" aria-label="main navigation">
                     <div className="navbar-brand">
-                        <a className="navbar-item" href="https://bulma.io">
+                        <a className="navbar-item" onClick={this.redirectHome.bind(this)}>
                         <img src={'https://bulma.io/images/bulma-logo.png'} width="112" height="28"/>
                         </a>
 
@@ -40,7 +64,7 @@ class Navbar extends Component {
                             Home
                         </a>
 
-                        <a className="navbar-item">
+                        <a className="navbar-item" onClick={this.proveri.bind(this)}>
                             Documentation
                         </a>
 
@@ -70,12 +94,15 @@ class Navbar extends Component {
                         <div className="navbar-end">
                         <div className="navbar-item">
                             <div className="buttons">
-                            <a className="button is-primary">
-                                <strong>Sign up</strong>
-                            </a>
-                            <button className="button is-light" onClick={this.redirectLogin.bind(this)}>
-                                Log in
-                            </button>
+                            
+                            {
+                                this.state.loggedUser !== null ? <button className="button is-light" onClick={this.logout.bind(this)}>Logout</button> :
+                                <div>
+                                    <a className="button is-primary"><strong>Sign up</strong></a>
+                                    <button className="button is-light" onClick={this.redirectLogin.bind(this)}>Log in</button>
+                                </div>
+                            } 
+                            
                             </div>
                         </div>
                         </div>
@@ -86,4 +113,4 @@ class Navbar extends Component {
     }
 }
 
-export default Navbar;
+export default withRouter(Navbar);

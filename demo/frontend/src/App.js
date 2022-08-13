@@ -6,7 +6,7 @@ import swal from 'sweetalert2';
 import './CSS/login.css'
 import { useHistory } from "react-router-dom";
 
-import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import HomePage from './components/HomePage';
 import Navbar from './components/Navbar';
 import Login from './components/Login';
@@ -17,11 +17,11 @@ function App() {
         <Router>
               <Navbar />
                 <div className="container">
-                    <Routes> 
-                          <Route path = "/" exact element = {<HomePage/>}></Route>
-                          <Route path = "/login" element = {<Login/>}></Route>
+                    <Switch> 
+                          <Route path = "/" exact component = {HomePage}></Route>
+                          <Route path = "/login" component = {Login}></Route>
 
-                    </Routes>
+                    </Switch>
                 </div>
         </Router>
     </div>

@@ -26,10 +26,15 @@ public class UserController {
     private UserService userService;
 
 
-
     @RequestMapping("/login")
+    @GetMapping( produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) throws AuthenticationException {
-        return new ResponseEntity<>(userService.login(request), HttpStatus.OK);
+        LoginResponse response = userService.login(request);
+        if(response != null) {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
     }
 
 

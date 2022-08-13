@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
@@ -54,23 +55,37 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepository.findAll();
     }
 
-
     @Override
     public UserApp findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
-
     public UserApp loadUserByUsername(String username){
         return userRepository.findByUsername(username);
     }
 
     public LoginResponse login(LoginRequest request) throws AuthenticationException {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+
+        /*authenticationManager.authenticate(
+               new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
         UserApp user = loadUserByUsername(request.getUsername());
         String token = jwtUtils.generateToken(user);
+        return new LoginResponse(token, user);*/
 
-        return new LoginResponse(token, user);
+        Optional<UserApp> optionalUser = Optional.ofNullable(userRepository.findByUsername(request.getUsername()));
+        UserApp userApp;
+        if(optionalUser.isEmpty())
+            return null;
+        else
+        {
+            userApp = optionalUser.get();
+            if(userApp.getPassword().equals(request.getPassword())) {
+                UserApp user = loadUserByUsername(request.getUsername());
+                String token = jwtUtils.generateToken(user);
+                return new LoginResponse(token, user);
+            }
+            else
+                return null;
+        }
     }
 }
 
