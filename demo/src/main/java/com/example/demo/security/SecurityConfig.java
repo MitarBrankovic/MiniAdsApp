@@ -51,6 +51,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers("/**").permitAll()
                 .antMatchers("/api/user/getUsers").permitAll()
                 .antMatchers("/api/user/login").permitAll()
+                .antMatchers("/api/ad/getAd").permitAll()
+                .antMatchers("/api/ad/getAllAds").permitAll()
                 .and()
                 .addFilterBefore(new JwtFilter(jwtUtils, userService), BasicAuthenticationFilter.class)
                 .exceptionHandling().authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));

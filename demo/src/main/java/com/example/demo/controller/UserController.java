@@ -49,8 +49,7 @@ public class UserController {
     }
 
     @GetMapping(path="/getUsers")
-    public ResponseEntity<List<UserApp>> getUsers()
-    {
+    public ResponseEntity<List<UserApp>> getUsers() {
         return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
     }
 }

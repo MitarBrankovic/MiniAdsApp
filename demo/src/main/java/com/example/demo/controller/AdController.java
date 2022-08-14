@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.websocket.server.PathParam;
+import java.util.List;
 
 @Controller
 @CrossOrigin(origins = "http://localhost:3000")
@@ -27,5 +28,10 @@ public class AdController {
     public ResponseEntity<Ad> findAd(@PathParam("name") String name){
         Ad ad = adService.findByName(name);
         return new ResponseEntity<>(ad, HttpStatus.OK);
+    }
+
+    @GetMapping("/getAllAds")
+    public ResponseEntity<List<Ad>> getAllAds(){
+        return new ResponseEntity<>(adService.findAll(), HttpStatus.OK);
     }
 }
