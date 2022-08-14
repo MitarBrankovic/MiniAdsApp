@@ -26,14 +26,9 @@ class Navbar extends Component {
         window.location.reload()
     }
 
-    proveri(){
-        if(this.state.loggedUser !== null){
-            alert("true")
-            return true
-        }else{
-            alert("false")
-            return false
-        }
+    redirectRegister(){
+        this.props.history.push('/register');
+        window.location.reload()
     }
 
     logout(){
@@ -64,7 +59,7 @@ class Navbar extends Component {
                             Home
                         </a>
 
-                        <a className="navbar-item" onClick={this.proveri.bind(this)}>
+                        <a className="navbar-item">
                             Documentation
                         </a>
 
@@ -98,7 +93,7 @@ class Navbar extends Component {
                             {
                                 this.state.loggedUser !== null ? <button className="button is-light" onClick={this.logout.bind(this)}>Logout</button> :
                                 <div>
-                                    <a className="button is-primary"><strong>Sign up</strong></a>
+                                    <a className="button is-primary" onClick={this.redirectRegister.bind(this)}><strong>Sign up</strong></a>
                                     <button className="button is-light" onClick={this.redirectLogin.bind(this)}>Log in</button>
                                 </div>
                             } 

@@ -29,7 +29,7 @@ class HomePage extends Component {
 
         return (
             <div>
-                <section className="section is-hidden-mobile">
+                <section className="section">
                     <div className="container">
                         <h3 className="title has-text-centered is-size-4">Related Products</h3>
                         <div className="columns is-multiline">

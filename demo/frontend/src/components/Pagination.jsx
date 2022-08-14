@@ -10,7 +10,7 @@ const propTypes = {
 
 const defaultProps = {
     initialPage: 1,
-    pageSize: 10
+    pageSize: 20
 }
 
 class Pagination extends React.Component {
@@ -115,21 +115,21 @@ class Pagination extends React.Component {
         return (
             <ul className="pagination is-rounded">
                 <li className={pager.currentPage === 1 ? 'disabled' : ''}>
-                    <a onClick={() => this.setPage(1)} className="pagination-previous">First</a>
+                    <button onClick={() => this.setPage(1)} className="pagination-previous">First</button>
                 </li>
                 <li className={pager.currentPage === 1 ? 'disabled' : ''}>
-                    <a onClick={() => this.setPage(pager.currentPage - 1)} className="pagination-previous">Previous</a>
+                    <button onClick={() => this.setPage(pager.currentPage - 1)} className="pagination-previous">Previous</button>
                 </li>
                 {pager.pages.map((page, index) =>
                     <li key={index} className={pager.currentPage === page ? 'active' : ''}>
-                        <a onClick={() => this.setPage(page)} className="pagination-link">{page}</a>
+                        <button onClick={() => this.setPage(page)} className={pager.currentPage === page ? "pagination-link is-current" : "pagination-link"}>{page}</button>
                     </li>
                 )}
                 <li className={pager.currentPage === pager.totalPages ? 'disabled' : ''}>
-                    <a onClick={() => this.setPage(pager.currentPage + 1)} className="pagination-next">Next</a>
+                    <button onClick={() => this.setPage(pager.currentPage + 1)} className="pagination-next">Next</button>
                 </li>
                 <li className={pager.currentPage === pager.totalPages ? 'disabled' : ''}>
-                    <a onClick={() => this.setPage(pager.totalPages)} className="pagination-next">Last</a>
+                    <button onClick={() => this.setPage(pager.totalPages)} className="pagination-next">Last</button>
                 </li>
             </ul>
         );

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import UserService from '../services/UserService';
-import { useNavigate } from "react-router-dom";
-import { withRouter } from 'react-router-dom';
 
 class Login extends Component {
 
@@ -34,10 +32,11 @@ class Login extends Component {
         let loginForm = { username: this.state.username, password: this.state.password };
         UserService.login(loginForm).then((res) => {
             //UserService.loggedUser = res.data.user;
+            UserService.swalSuccess('Logged in successfully');
             localStorage.setItem('user', JSON.stringify(res.data.user))
             localStorage.setItem('jwtToken', JSON.stringify(res.data.token))
             this.props.history.push('/');
-            window.location.reload(false)
+            window.location.reload()
         }).catch((err) => {
             console.log(err);
         });
@@ -53,7 +52,7 @@ class Login extends Component {
                     <div className="row">
                         <div className="col-lg-3 col-md-2"></div>
 
-                        <div className="col-lg-6 col-md-8 login-box">
+                        <div className=" login-box">
                             <form method="POST"  onSubmit={this.login.bind(this)}>
                                 <div className="forma container">
                                     <div className="col-lg-12 login-key">

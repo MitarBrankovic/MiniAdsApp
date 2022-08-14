@@ -14,6 +14,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,9 +39,10 @@ public class UserController {
     }
 
 
-    @RequestMapping("/saveUser")
+    @RequestMapping("/register")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity saveUser(@RequestBody UserRegistrationDto dto){
+    public ResponseEntity register(@RequestBody UserRegistrationDto dto){
+        dto.setDateOfRegistration(LocalDateTime.now());
         if(Validator.isValidUserDto(dto)){
             userService.saveUser(dto);
             return new ResponseEntity(HttpStatus.CREATED);

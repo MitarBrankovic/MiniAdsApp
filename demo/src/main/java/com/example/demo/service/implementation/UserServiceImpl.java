@@ -78,7 +78,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         else
         {
             userApp = optionalUser.get();
-            if(userApp.getPassword().equals(request.getPassword())) {
+            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(10, new SecureRandom());
+            if(bCryptPasswordEncoder.matches(request.getPassword(), userApp.getPassword())) {
                 UserApp user = loadUserByUsername(request.getUsername());
                 String token = jwtUtils.generateToken(user);
                 return new LoginResponse(token, user);
