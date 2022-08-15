@@ -38,6 +38,7 @@ class Login extends Component {
             this.props.history.push('/');
             window.location.reload()
         }).catch((err) => {
+            UserService.swalError('Wrong credentials');
             console.log(err);
         });
 

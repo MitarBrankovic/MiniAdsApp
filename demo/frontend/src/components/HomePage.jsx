@@ -114,6 +114,13 @@ class HomePage extends Component {
         }
     }
 
+    checkIfMyCard(ad){
+        if(this.state.loggedUser !== null && ad.userApp.id === this.state.loggedUser.id){
+            return true;
+        }
+        return false;
+    }
+
     render() {
 
         return (
@@ -139,7 +146,7 @@ class HomePage extends Component {
                             <option value={"technology"}>Technology</option>
                         </select>
                     </div><br/>
-                    {this.state.loggedUser !== null ?  <div><input type="checkbox" className='mt-3' value={this.state.isMine} onChange={this.changeIsMineHandler} /><label className='ml-2'>Show only mine</label></div> : null}
+                    {this.state.loggedUser !== null ?  <div><input type="checkbox" className='mt-3' value={this.state.isMine} onChange={this.changeIsMineHandler} /><label className='ml-2'>Show mine only</label></div> : null}
 
                 </div>
 
@@ -150,7 +157,7 @@ class HomePage extends Component {
                         {
                         this.state.pageOfItems.map(item =>{
                                 return <div className='column is-3' key={item.id}>
-                                            <div className="card mt-5 ml-5 " >
+                                            <div className="card mt-5 ml-5 " style={{"borderColor": this.checkIfMyCard(item) ? "turquoise" : ""}}>
                                             <div className="card-image has-text-centered px-6">
                                                 <img src={'https://bulma.io/images/bulma-logo.png'} alt="Placeholder"/>
                                             </div>
