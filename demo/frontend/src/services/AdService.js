@@ -13,6 +13,10 @@ class AdService {
     getAllAds(){
         return axios.get(AD_API_BASE_URL + '/getAllAds');
     }
+
+    searchAds(search){
+        return axios.post(AD_API_BASE_URL + '/searchAds', search);
+    } 
 }
 
 
