@@ -68,11 +68,11 @@ class Navbar extends Component {
 
                     <div id="navbarBasicExample" className="navbar-menu">
                         <div className="navbar-start">
-                            <a className="navbar-item">Home</a>
+                            <a className="navbar-item" style={{textDecoration: "none", }}>Home</a>
 
-                            <a className="navbar-item">Documentation</a>
+                            <a className="navbar-item" style={{textDecoration: "none", }}>Documentation</a>
 
-                            { this.checkIfUserIsCommon() ? <a className="navbar-item" onClick={this.redirectAddNewAd.bind(this)}>Add new Ad</a> : null }
+                            { this.checkIfUserIsCommon() ? <a className="navbar-item" style={{textDecoration: "none", }} onClick={this.redirectAddNewAd.bind(this)}>Add new Ad</a> : null }
                         
                         </div>
 

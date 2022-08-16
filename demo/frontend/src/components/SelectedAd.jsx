@@ -150,7 +150,7 @@ class SelectedAd extends Component {
         return (
             <div className="container columns mt-3">
                 <div className="column">
-                        <img src={'https://bulma.io/images/bulma-logo.png'} style={{width: "350px", height: "200px"}}></img>
+                        <img src={process.env.PUBLIC_URL + '/images/' + this.state.urlPhoto} style={{width: "350px", height: "200px"}}></img>
                         <div className="col-lg-12 login-title mt-5">{this.state.name}</div><br/>
 
                         {!this.state.isEdit ? 
@@ -271,8 +271,8 @@ class SelectedAd extends Component {
                 price: res.data.price,
                 city: res.data.city,
                 status: res.data.status,
-                owner: res.data.userApp
-                //urlPhoto: res.data.urlPhoto,
+                owner: res.data.userApp,
+                urlPhoto: res.data.urlPhoto,
             })
         })
 

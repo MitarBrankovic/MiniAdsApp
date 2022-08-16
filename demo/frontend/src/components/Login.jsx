@@ -53,7 +53,7 @@ class Login extends Component {
                     <div className="row">
                         <div className="col-lg-3 col-md-2"></div>
 
-                        <div className=" login-box">
+                        <div className="login-box">
                             <form method="POST"  onSubmit={this.login.bind(this)}>
                                 <div className="forma container">
                                     <div className="col-lg-12 login-key">

@@ -163,8 +163,8 @@ class HomePage extends Component {
                         this.state.pageOfItems.map(item =>{
                                 return <div className='column is-3' key={item.id}>
                                             <div className="card mt-5 ml-5 " style={{"borderColor": this.checkIfMyCard(item) ? "turquoise" : ""}}>
-                                            <div className="card-image has-text-centered px-6">
-                                                <img src={'https://bulma.io/images/bulma-logo.png'} alt="Placeholder"/>
+                                            <div className="card-image has-text-centered " style={{backgroundColor:"FloralWhite"}}>
+                                                <img src={process.env.PUBLIC_URL + '/images/' + item.urlPhoto} style={{maxHeight:"150px"}} alt="Placeholder"/>
                                             </div>
                                             <div className="card-content">
                                                 <p className="title is-size-5">{item.name}</p>
@@ -173,7 +173,7 @@ class HomePage extends Component {
                                             </div>
                                             <footer className="card-footer">
                                             <p className="card-footer-item">
-                                                <a className="has-text-grey" onClick={() => {this.redirectAd(item)}}>View</a>
+                                                <a className="has-text-grey" style={{textDecoration: "none"}} onClick={() => {this.redirectAd(item)}}>View</a>
                                             </p>
                                             </footer>
                                         </div>

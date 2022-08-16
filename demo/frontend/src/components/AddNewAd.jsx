@@ -62,7 +62,7 @@ class AddNewAd extends Component {
         let ad = {
             name: this.state.name,
             description: this.state.description,
-            urlPhoto: "",
+            urlPhoto: this.state.urlPhoto.slice(12),
             price: this.state.price,
             status: this.state.status,
             username: this.state.loggedUser.username,
