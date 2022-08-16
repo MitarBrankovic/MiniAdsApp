@@ -62,4 +62,9 @@ public class AdServiceImpl implements AdService {
         return ads;
         }
 
+    @Override
+    public void saveAd(Ad ad) {
+        adRepository.save(ad);
+    }
+
 }

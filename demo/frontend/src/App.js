@@ -10,6 +10,8 @@ import HomePage from './components/HomePage';
 import Navbar from './components/Navbar';
 import Login from './components/Login';
 import Register from './components/Register';
+import SelectedAd from './components/SelectedAd';
+import AddNewAd from './components/AddNewAd';
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
                           <Route path = "/" exact component = {HomePage}></Route>
                           <Route path = "/login" component = {Login}></Route>
                           <Route path = "/register" component = {Register}></Route>
+                          <Route path = "/selectedAd" component = {SelectedAd}></Route>
+                          <Route path = "/addNewAd" component = {AddNewAd}></Route>
 
                     </Switch>
                 </div>

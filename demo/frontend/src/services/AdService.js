@@ -16,7 +16,11 @@ class AdService {
 
     searchAds(search){
         return axios.post(AD_API_BASE_URL + '/searchAds', search);
-    } 
+    }
+
+    addAd(ad){
+        return axios.post(AD_API_BASE_URL + '/addAd', ad);
+    }
 }
 
 

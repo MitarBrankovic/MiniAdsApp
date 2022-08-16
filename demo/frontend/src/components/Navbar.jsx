@@ -31,10 +31,22 @@ class Navbar extends Component {
         window.location.reload()
     }
 
+    redirectAddNewAd(){
+        this.props.history.push('/addNewAd');
+        window.location.reload()
+    }
+
     logout(){
         localStorage.removeItem('user')
         localStorage.removeItem('token')
         window.location.reload()
+    }
+
+    checkIfUserIsCommon(){
+        if(this.state.loggedUser !== null && this.state.loggedUser.role.name === 'ROLE_COMMON'){
+            return true
+        }
+        return false
     }
     
     render() {
@@ -55,35 +67,12 @@ class Navbar extends Component {
 
                     <div id="navbarBasicExample" className="navbar-menu">
                         <div className="navbar-start">
-                        <a className="navbar-item">
-                            Home
-                        </a>
+                            <a className="navbar-item">Home</a>
 
-                        <a className="navbar-item">
-                            Documentation
-                        </a>
+                            <a className="navbar-item">Documentation</a>
 
-                            <div className="navbar-item has-dropdown is-hoverable">
-                                <a className="navbar-link">
-                                More
-                                </a>
-
-                                <div className="navbar-dropdown">
-                                    <a className="navbar-item">
-                                        About
-                                    </a>
-                                    <a className="navbar-item">
-                                        Jobs
-                                    </a>
-                                    <a className="navbar-item">
-                                        Contact
-                                    </a>
-                                    <hr className="navbar-divider"/>
-                                    <a className="navbar-item">
-                                        Report an issue
-                                    </a>
-                                </div>
-                            </div>
+                            { this.checkIfUserIsCommon() ? <a className="navbar-item" onClick={this.redirectAddNewAd.bind(this)}>Add new Ad</a> : null }
+                        
                         </div>
 
                         <div className="navbar-end">

@@ -14,4 +14,6 @@ public interface AdService {
     List<Ad> sortByDate(List<Ad> ads);
 
     List<Ad> searchAds(SearchAdsDto search);
+
+    void saveAd(Ad ad);
 }
