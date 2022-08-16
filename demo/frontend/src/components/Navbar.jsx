@@ -39,6 +39,7 @@ class Navbar extends Component {
     logout(){
         localStorage.removeItem('user')
         localStorage.removeItem('token')
+        localStorage.clear()
         window.location.reload()
     }
 
@@ -52,7 +53,7 @@ class Navbar extends Component {
     render() {
         return (
             <div>
-                <nav className="navbar" role="navigation" aria-label="main navigation">
+                <nav className="navbar" role="navigation" aria-label="main navigation" style={{backgroundImage: "linear-gradient(to bottom left, PaleTurquoise, MintCream)"}}>
                     <div className="navbar-brand">
                         <a className="navbar-item" onClick={this.redirectHome.bind(this)}>
                         <img src={'https://bulma.io/images/bulma-logo.png'} width="112" height="28"/>

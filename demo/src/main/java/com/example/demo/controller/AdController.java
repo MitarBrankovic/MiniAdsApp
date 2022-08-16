@@ -61,4 +61,10 @@ public class AdController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    @PutMapping("/updateAd/{id}")
+    public ResponseEntity updateAd(@PathVariable("id") Long id, @RequestBody NewAddDto adDto){
+        adService.updateAd(id, adDto);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
 }

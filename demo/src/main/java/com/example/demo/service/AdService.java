@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.NewAddDto;
 import com.example.demo.dto.SearchAdsDto;
 import com.example.demo.model.Ad;
 
@@ -20,4 +21,6 @@ public interface AdService {
     Ad findById(Long id);
 
     void deleteAd(Long id);
+
+    void updateAd(Long id, NewAddDto adDto);
 }

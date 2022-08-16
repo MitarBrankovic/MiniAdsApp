@@ -129,7 +129,7 @@ class HomePage extends Component {
     render() {
 
         return (
-            <div>
+            <div className='mt-3'>
                 <div className='container' style={{"borderWidth": "1px", "borderStyle": "solid", "borderColor": "turquoise", "backgroundColor": "#FAFAFA"}}>
                     <input type='text' className='input col-sm-4 mr-2 mt-2' value={this.state.search} onChange={this.changeSearchHandler} placeholder='Search' />
                     <input type='text' className='input col-sm-2 ml-2 mt-2' value={this.state.minPrice} onChange={this.changeMinHandler} onSelect={this.resetMinValueInputWhenZero.bind(this)} placeholder='MinPrice' />
@@ -137,7 +137,7 @@ class HomePage extends Component {
                     <button className='button is-primary ml-2 mt-2' onClick={this.searchAds.bind(this)}>Search</button>
                     <br/>
                     
-                    <div className="select mt-3">
+                    <div className="select mt-3 mb-3">
                         <select value={this.state.category} onChange={this.changeCategoryHandler}>
                             <option value={""}>Select dropdown</option>
                             <option value={"clothing"}>Clothing</option>

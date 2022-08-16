@@ -29,6 +29,10 @@ class AdService {
     deleteAd(adId){
         return axios.delete(AD_API_BASE_URL + '/deleteAd/' + adId);
     }
+
+    updateAd(adId, dto){
+        return axios.put(AD_API_BASE_URL + '/updateAd/'+ adId, dto);
+    }
 }
 
 

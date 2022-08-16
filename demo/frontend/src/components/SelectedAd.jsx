@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import AdService from '../services/AdService';
 import Moment from 'moment';
 import Swal from 'sweetalert2';
+import UserService from '../services/UserService';
 
 class SelectedAd extends Component {
 
@@ -10,6 +11,7 @@ class SelectedAd extends Component {
 
         this.state = {
             ad: '',
+            owner: '',
             loggedUser: JSON.parse(localStorage.getItem('user')),
             name: '',
             description: '',
@@ -60,7 +62,38 @@ class SelectedAd extends Component {
         }
     }
 
-    editAdHandler() {
+    updateAd() {
+        let dto = {
+            name: this.state.name,
+            description: this.state.description,
+            urlPhoto: this.state.urlPhoto,
+            price: this.state.price,
+            status: this.state.status,
+            username: this.state.loggedUser.username,
+            city: this.state.city
+        }
+
+        this.setState({
+            isEdit: false
+        })
+
+        AdService.updateAd(this.state.ad.id, dto).then(()=>{
+            Swal.fire(
+                'Ad successfully updated!',
+                'Your ad has been updated.',
+                'success'
+              )
+            setTimeout(function(){window.location.reload()}, 1000);
+        }).catch(err=>{
+            Swal.fire(
+                'Error!',
+                'Your ad has not been updated.',
+                'error'
+              )
+        })
+    }
+
+    openEditHandler(){
         this.setState({
             isEdit: true
         })
@@ -72,8 +105,9 @@ class SelectedAd extends Component {
         })
     }
 
-    checkIfMyAd(){
-        if(this.state.loggedUser !== null && this.state.ad.userApp.id === this.state.loggedUser.id){
+    checkIfMyAd(e){
+        e.preventDefault();
+        if(this.state.loggedUser !== null && this.state.owner.id === this.state.loggedUser.id){
             return true;
         }
         return false;
@@ -106,54 +140,60 @@ class SelectedAd extends Component {
     }
 
     render() {
+        let checkIfMyAd = false;
+        if(this.state.loggedUser !== null && this.state.owner.id === this.state.loggedUser.id){
+            checkIfMyAd =  true;
+        }else{
+            checkIfMyAd = false;
+        }
+
         return (
-            <div className="container columns">
+            <div className="container columns mt-3">
                 <div className="column">
-                        <div className="col-lg-12 login-key">
-                            <i className="bi bi-bag-plus-fill" aria-hidden="true"></i>
-                        </div>
-                        <div className="col-lg-12 login-title">BLAA</div><br/>
+                        <img src={'https://bulma.io/images/bulma-logo.png'} style={{width: "350px", height: "200px"}}></img>
+                        <div className="col-lg-12 login-title mt-5">{this.state.name}</div><br/>
 
                         {!this.state.isEdit ? 
                         <div>
                             <label className="col-sm-4 col-form-label mt-2" htmlFor="name"><b>Name</b></label>
-                            <label className="col-sm-4 col-form-label mt-2">{this.state.ad.name}</label><br/>
+                            <label className="col-sm-4 col-form-label mt-2">{this.state.name}</label><br/>
 
                             <label className="col-sm-4 col-form-label mt-2" htmlFor="name"><b>Description</b></label>
-                            <label className="col-sm-4 col-form-label mt-2">{this.state.ad.description}</label><br/>
+                            <label className="col-sm-4 col-form-label mt-2">{this.state.description}</label><br/>
 
                             <label className="col-sm-4 col-form-label mt-2" htmlFor="name"><b>Price</b></label>
-                            <label className="col-sm-4 col-form-label mt-2">{this.state.ad.price}</label><br/>
+                            <label className="col-sm-4 col-form-label mt-2">{this.state.price}</label><br/>
                             
                             <label className="col-sm-4 col-form-label mt-2" htmlFor="name"><b>City</b></label>
-                            <label className="col-sm-4 col-form-label mt-2">{this.state.ad.city}</label><br/>
+                            <label className="col-sm-4 col-form-label mt-2">{this.state.city}</label><br/>
 
                             <label className="col-sm-4 col-form-label mt-2" htmlFor="name"><b>Category</b></label>
-                            <label className="col-sm-4 col-form-label mt-2">{this.state.ad.status}</label><br/>
+                            <label className="col-sm-4 col-form-label mt-2">{this.state.status}</label><br/>
 
-                            {this.checkIfMyAd ? 
+                            {checkIfMyAd === true ? 
                             <div className='mt-3'>
-                                <button className='button is-info' onClick={this.editAdHandler.bind(this)}>Edit</button>
+                                <button className='button is-info' onClick={this.openEditHandler.bind(this)}>Edit</button>
                                 <button className='button is-danger ml-2' onClick={this.deleteAd.bind(this)}>Delete</button>
                             </div> : null}
                         </div> 
                         
                         :<div>                   
                             <label className="col-sm-4 col-form-label mt-2" htmlFor="name"><b>Name</b></label>
-                            <input name="nameInput" pattern="[a-zA-Z]+[a-zA-Z ]+" title="Enter letters only." className="input is-primary" style={{"width":"40%" }} type="text" value={this.state.ad.name} onChange={this.changeNameHandler} required/>
+                            <input name="nameInput" pattern="[a-zA-Z]+[a-zA-Z ]+" title="Enter letters only." className="input is-primary" style={{"width":"40%" }} type="text" value={this.state.name} onChange={this.changeNameHandler} required/>
                             <br/>
 
                             <label className="col-sm-4 col-form-label mt-2" htmlFor="name"><b>Description</b></label>
-                            <input name="nameInput" pattern="[a-zA-Z]+[a-zA-Z ]+" title="Enter letters only." className="input is-primary" style={{"width":"40%" }} type="text" value={this.state.ad.description} onChange={this.changeDescriptionHandler} required/>
+                            <input name="nameInput" pattern="[a-zA-Z]+[a-zA-Z ]+" title="Enter letters only." className="input is-primary" style={{"width":"40%" }} type="text" value={this.state.description} onChange={this.changeDescriptionHandler} required/>
                             <br/>
                             
                             <label className="col-sm-4 col-form-label mt-2" htmlFor="surname"><b>Price</b></label>
-                            <input pattern="[0-9]+" title="Enter numbers only." className="input is-primary" style={{"width":"40%" }} type="number" value={this.state.ad.price} onChange={this.changePriceHandler} required/>
+                            <input pattern="[0-9]+" title="Enter numbers only." className="input is-primary" style={{"width":"40%" }} type="number" value={this.state.price} onChange={this.changePriceHandler} required/>
                             <br/>
 
                             <label className="col-sm-4 col-form-label mt-2" htmlFor="phoneNumber"><b>City</b></label>
-                            <input pattern="[a-zA-Z]+[a-zA-Z ]+" title="Enter numbers only." className="input is-primary" style={{"width":"40%" }} type="text" value={this.state.ad.city} onChange={this.changeCityHandler} required/>
+                            <input pattern="[a-zA-Z]+[a-zA-Z ]+" title="Enter numbers only." className="input is-primary" style={{"width":"40%" }} type="text" value={this.state.city} onChange={this.changeCityHandler} required/>
                             <br/>
+                            <label className="col-sm-4 col-form-label mt-2" htmlFor="name"><b>Category</b></label>
                             <div className="select mt-3 mb-3">
                                 <select value={this.state.status} onChange={this.changeStatusHandler}>
                                     <option value={""}>Select dropdown</option>
@@ -188,7 +228,7 @@ class SelectedAd extends Component {
 
                             {this.checkIfMyAd ? 
                             <div className='mt-5'>
-                                <button className='button is-primary' onClick={this.editAdHandler.bind(this)}>Save</button>
+                                <button className='button is-primary' onClick={this.updateAd.bind(this)}>Save</button>
                                 <button className='button is-light ml-3' onClick={this.cancelEditHandler.bind(this)}>Cancel</button>
                             </div> : null}
                         </div>
@@ -198,23 +238,23 @@ class SelectedAd extends Component {
                    </div>   
 
                    <div className='column'>
-                        <div className='containter'>
+                        <div className='ml-5' style={{width: "61%", borderWidth: "1px", borderStyle: "solid", borderColor: "turquoise", backgroundColor: "#FAFAFA", paddingLeft: "15px"}}>
                             <h4 className='is-center'>Information about seller</h4>
 
-                            <label className="col-sm-4 col-form-label mt-2" htmlFor="name"><b>Username</b></label>
-                            <label className="col-sm-4 col-form-label mt-2">{this.state.loggedUser.username}</label><br/>
+                            <label className="col-sm-4 col-form-label mt-2 mr-1" htmlFor="name"><b>Username</b></label>
+                            <label className="col-sm-4 col-form-label mt-2">{this.state.owner.username}</label><br/>
 
-                            <label className="col-sm-4 col-form-label mt-2" htmlFor="name"><b>First name</b></label>
-                            <label className="col-sm-4 col-form-label mt-2">{this.state.loggedUser.firstName}</label><br/>
+                            <label className="col-sm-4 col-form-label mt-2 mr-1" htmlFor="name"><b>First name</b></label>
+                            <label className="col-sm-4 col-form-label mt-2">{this.state.owner.firstName}</label><br/>
 
-                            <label className="col-sm-4 col-form-label mt-2" htmlFor="name"><b>Last name</b></label>
-                            <label className="col-sm-4 col-form-label mt-2">{this.state.loggedUser.lastName}</label><br/>
+                            <label className="col-sm-4 col-form-label mt-2 mr-1" htmlFor="name"><b>Last name</b></label>
+                            <label className="col-sm-4 col-form-label mt-2">{this.state.owner.lastName}</label><br/>
 
-                            <label className="col-sm-4 col-form-label mt-2" htmlFor="name"><b>Phone number</b></label>
-                            <label className="col-sm-4 col-form-label mt-2">{this.state.loggedUser.phoneNumber}</label><br/>
+                            <label className="col-sm-4 col-form-label mt-2 mr-1" htmlFor="name"><b>Phone number</b></label>
+                            <label className="col-sm-4 col-form-label mt-2">{this.state.owner.phoneNumber}</label><br/>
 
-                            <label className="col-sm-4 col-form-label mt-2" htmlFor="name"><b>Date of registration</b></label>
-                            <label className="col-sm-4 col-form-label mt-2">{Moment(this.state.loggedUser.dateOfRegistrion).format('DD.MM.YYYY.')}</label><br/>
+                            <label className="col-sm-4 col-form-label mt-2 mr-1" htmlFor="name"><b>Date of registration</b></label>
+                            <label className="col-sm-4 col-form-label mt-2">{Moment(this.state.owner.dateOfRegistrion).format('DD.MM.YYYY.')}</label><br/>
                         </div>
                     </div>  
             </div>
@@ -225,10 +265,19 @@ class SelectedAd extends Component {
 
         AdService.getAd(this.props.match.params.id).then((res)=>{
             this.setState({
-                ad: res.data
+                ad: res.data,
+                name: res.data.name,
+                description: res.data.description,
+                price: res.data.price,
+                city: res.data.city,
+                status: res.data.status,
+                owner: res.data.userApp
+                //urlPhoto: res.data.urlPhoto,
             })
         })
+
     }
+
 }
 
 

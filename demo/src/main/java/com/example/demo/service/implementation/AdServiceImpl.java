@@ -1,8 +1,10 @@
 package com.example.demo.service.implementation;
 
+import com.example.demo.dto.NewAddDto;
 import com.example.demo.dto.SearchAdsDto;
 import com.example.demo.model.Ad;
 import com.example.demo.repository.AdRepository;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.service.AdService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,9 @@ public class AdServiceImpl implements AdService {
 
     @Autowired
     private AdRepository adRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public Ad findByName(String name) {
@@ -75,6 +80,19 @@ public class AdServiceImpl implements AdService {
     @Override
     public void deleteAd(Long id) {
         adRepository.deleteById(id);
+    }
+
+    @Override
+    public void updateAd(Long id, NewAddDto adDto) {
+        Ad ad = findById(id);
+        ad.setName(adDto.getName());
+        ad.setDescription(adDto.getDescription());
+        ad.setUrlPhoto(adDto.getUrlPhoto());
+        ad.setPrice(adDto.getPrice());
+        ad.setStatus(adDto.getStatus());
+        ad.setCity(adDto.getCity());
+        ad.setUserApp(userRepository.findByUsername(adDto.getUsername()));
+        saveAd(ad);
     }
 
 }
