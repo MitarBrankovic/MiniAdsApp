@@ -33,6 +33,10 @@ class AdService {
     updateAd(adId, dto){
         return axios.put(AD_API_BASE_URL + '/updateAd/'+ adId, dto);
     }
+
+    getAdsByUser(userId){
+        return axios.get(AD_API_BASE_URL + '/getAdsByUser/' + userId);
+    }
 }
 
 

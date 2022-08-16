@@ -23,4 +23,6 @@ public interface AdService {
     void deleteAd(Long id);
 
     void updateAd(Long id, NewAddDto adDto);
+
+    List<Ad> findByUserId(Long id);
 }

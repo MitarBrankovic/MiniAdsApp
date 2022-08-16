@@ -19,7 +19,10 @@ class SelectedAd extends Component {
             price: '',
             city: '',
             urlPhoto: '',
-            isEdit: false
+            isEdit: false,
+
+            adsByUser: [],
+            urlPhotoHelper: ''
         }
 
         this.changeNameHandler = this.changeNameHandler.bind(this);
@@ -51,7 +54,7 @@ class SelectedAd extends Component {
     }
 
     changeUrlPhotoHandler(e) {
-        this.setState({urlPhoto: e.target.value});
+        this.setState({urlPhoto: (e.target.value).slice(12)});
 
         const fileInput = document.querySelector('#file-ss input[type=file]');
         fileInput.onchange = () => {
@@ -139,6 +142,12 @@ class SelectedAd extends Component {
           })
     }
 
+
+    redirectAd(ad){
+        this.props.history.push(`/selectedAd/${ad.id}`)
+        window.location.reload();
+    }
+
     render() {
         let checkIfMyAd = false;
         if(this.state.loggedUser !== null && this.state.owner.id === this.state.loggedUser.id){
@@ -150,7 +159,7 @@ class SelectedAd extends Component {
         return (
             <div className="container columns mt-3">
                 <div className="column">
-                        <img src={process.env.PUBLIC_URL + '/images/' + this.state.urlPhoto} style={{width: "350px", height: "200px"}}></img>
+                        <img src={process.env.PUBLIC_URL + '/images/' + this.state.urlPhoto} style={{width: "500px", height: "300px", display: "block", marginLeft: "auto", marginRight: "auto"}}></img>
                         <div className="col-lg-12 login-title mt-5">{this.state.name}</div><br/>
 
                         {!this.state.isEdit ? 
@@ -211,7 +220,7 @@ class SelectedAd extends Component {
 
                             <div id='file-ss' className="file is-info has-name">
                                 <label className="file-label">
-                                    <input className="file-input" value={this.state.urlPhoto} onChange={this.changeUrlPhotoHandler} type="file" name="resume"/>
+                                    <input className="file-input" value={this.state.urlPhotoHelper} onChange={this.changeUrlPhotoHandler} type="file" name="resume"/>
                                     <span className="file-cta">
                                     <span className="file-icon">
                                         <i className="fas fa-upload"></i>
@@ -256,6 +265,30 @@ class SelectedAd extends Component {
                             <label className="col-sm-4 col-form-label mt-2 mr-1" htmlFor="name"><b>Date of registration</b></label>
                             <label className="col-sm-4 col-form-label mt-2">{Moment(this.state.owner.dateOfRegistrion).format('DD.MM.YYYY.')}</label><br/>
                         </div>
+                        <br/><br/><br/><br/>
+
+                        <div style={{ height: "250px", overflow: "auto", borderWidth: "1px", borderStyle: "solid", borderColor: "turquoise", backgroundColor: "#FAFAFA" }}>
+                        <h4 className='is-center' style={{textAlign: "center"}}>More products by this seller</h4>
+                            <table className='table is-striped is-narrow is-hoverable is-fullwidth mt-2'>
+                                <tbody>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                </tr>
+                                {
+                                this.state.adsByUser.map(item =>{
+                                    return  <tr key={item.id}>
+                                                <th style={{fontWeight: "normal"}}><a style={{color:"DarkCyan"}} onClick={() => {this.redirectAd(item)}}>{item.name}</a></th>
+                                                <th style={{fontWeight: "normal"}}>{item.status}</th>
+                                                <th style={{fontWeight: "normal"}}>{item.price}</th>
+                                            </tr>})
+                                }
+                                </tbody>
+                            </table>
+
+                        </div>
+
                     </div>  
             </div>
         );
@@ -274,7 +307,17 @@ class SelectedAd extends Component {
                 owner: res.data.userApp,
                 urlPhoto: res.data.urlPhoto,
             })
+
+            AdService.getAdsByUser(res.data.userApp.id).then((res)=>{
+                this.setState({
+                    adsByUser: res.data
+                })
+            }).catch((err)=>{
+                console.log(err)
+            })
         })
+
+
 
     }
 

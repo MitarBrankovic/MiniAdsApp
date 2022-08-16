@@ -95,4 +95,9 @@ public class AdServiceImpl implements AdService {
         saveAd(ad);
     }
 
+    @Override
+    public List<Ad> findByUserId(Long id) {
+        return adRepository.findByUserId(id);
+    }
+
 }

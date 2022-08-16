@@ -67,4 +67,10 @@ public class AdController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    @GetMapping("/getAdsByUser/{id}")
+    public ResponseEntity<List<Ad>> getAdsByUser(@PathVariable("id") Long id){
+        List<Ad> ads = adService.findByUserId(id);
+        return new ResponseEntity<>(ads, HttpStatus.OK);
+    }
+
 }
