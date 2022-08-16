@@ -29,10 +29,10 @@ public class AdController {
     private UserService userService;
 
 
-    @RequestMapping("/getAd")
+    @RequestMapping("/getAd/{id}")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Ad> findAd(@PathParam("name") String name){
-        Ad ad = adService.findByName(name);
+    public ResponseEntity<Ad> findAd(@PathVariable("id") Long id){
+        Ad ad = adService.findById(id);
         return new ResponseEntity<>(ad, HttpStatus.OK);
     }
 
@@ -53,6 +53,12 @@ public class AdController {
         Ad ad = new Ad(adDto.getName(), adDto.getDescription(), adDto.getUrlPhoto(), adDto.getPrice(), adDto.getStatus(), userService.findByUsername(adDto.getUsername()), adDto.getCity(), LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
         adService.saveAd(ad);
         return new ResponseEntity(HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/deleteAd/{id}")
+    public ResponseEntity deleteAd(@PathVariable("id") Long id){
+        adService.deleteAd(id);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
 }

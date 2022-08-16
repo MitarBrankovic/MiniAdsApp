@@ -114,11 +114,11 @@ class Register extends Component {
                         <br/>
 
                         <label className="col-sm-4 col-form-label mt-2" htmlFor="password"><b>Password</b></label>
-                        <input id="password" pattern="(?=.*\d)(?=.*[a-zA-Z]).{8,}" className="input is-primary" style={{"width":"40%" }} minlength="8" type="password" value={this.state.password} onChange={this.changePasswordHandler} required/>
+                        <input id="password" pattern="(?=.*\d)(?=.*[a-zA-Z]).{8,}" className="input is-primary" style={{"width":"40%" }} minLength="8" type="password" value={this.state.password} onChange={this.changePasswordHandler} required/>
                         <br/>
                         
                         <label className="col-sm-4 col-form-label mt-2" htmlFor="password-repeat"><b>Repeat password</b></label>
-                        <input id="confirmPassword" pattern="(?=.*\d)(?=.*[a-zA-Z]).{8,}" className="input is-primary" style={{"width":"40%" }} minlength="8" type="password" value={this.state.confirmPassword} onChange={this.changeConfirmPasswordHandler}  required/>
+                        <input id="confirmPassword" pattern="(?=.*\d)(?=.*[a-zA-Z]).{8,}" className="input is-primary" style={{"width":"40%" }} minLength="8" type="password" value={this.state.confirmPassword} onChange={this.changeConfirmPasswordHandler}  required/>
                         <br/>
 
 

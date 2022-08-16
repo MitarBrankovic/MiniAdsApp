@@ -16,4 +16,8 @@ public interface AdService {
     List<Ad> searchAds(SearchAdsDto search);
 
     void saveAd(Ad ad);
+
+    Ad findById(Long id);
+
+    void deleteAd(Long id);
 }

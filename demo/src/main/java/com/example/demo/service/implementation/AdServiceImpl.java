@@ -67,4 +67,14 @@ public class AdServiceImpl implements AdService {
         adRepository.save(ad);
     }
 
+    @Override
+    public Ad findById(Long id) {
+        return adRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public void deleteAd(Long id) {
+        adRepository.deleteById(id);
+    }
+
 }

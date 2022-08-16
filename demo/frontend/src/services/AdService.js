@@ -21,6 +21,14 @@ class AdService {
     addAd(ad){
         return axios.post(AD_API_BASE_URL + '/addAd', ad);
     }
+
+    getAd(adId){
+        return axios.get(AD_API_BASE_URL + '/getAd/' + adId);
+    }
+
+    deleteAd(adId){
+        return axios.delete(AD_API_BASE_URL + '/deleteAd/' + adId);
+    }
 }
 
 

@@ -23,7 +23,7 @@ function App() {
                           <Route path = "/" exact component = {HomePage}></Route>
                           <Route path = "/login" component = {Login}></Route>
                           <Route path = "/register" component = {Register}></Route>
-                          <Route path = "/selectedAd" component = {SelectedAd}></Route>
+                          <Route path = "/selectedAd/:id" component = {SelectedAd}></Route>
                           <Route path = "/addNewAd" component = {AddNewAd}></Route>
 
                     </Switch>

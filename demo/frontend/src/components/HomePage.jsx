@@ -121,6 +121,11 @@ class HomePage extends Component {
         return false;
     }
 
+    redirectAd(ad){
+        this.props.history.push(`/selectedAd/${ad.id}`)
+        window.location.reload();
+    }
+
     render() {
 
         return (
@@ -168,14 +173,12 @@ class HomePage extends Component {
                                             </div>
                                             <footer className="card-footer">
                                             <p className="card-footer-item">
-                                                <a href="" className="has-text-grey">View</a>
+                                                <a className="has-text-grey" onClick={() => {this.redirectAd(item)}}>View</a>
                                             </p>
                                             </footer>
                                         </div>
-                                    </div>
-                                
-                                })
-                        
+                                    </div>                            
+                                })                       
                         }
                         </div>
                     </div>
