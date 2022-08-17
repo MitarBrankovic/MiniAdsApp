@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import jwt from 'jwt-decode'
 
 const USER_API_BASE_URL = "http://localhost:8080/api/user";
 
@@ -11,6 +12,20 @@ class UserService {
             loggedUser: ""
         }
     }
+
+    parseJwt(token){
+      return jwt(token);
+    }
+
+    isExpired(){
+      if(JSON.parse(localStorage.getItem('jwtToken')) !== null){
+          let token = JSON.parse(localStorage.getItem('jwtToken'))
+          let expiration = this.parseJwt(token).exp
+          return expiration < Date.now() / 1000
+      }else{
+          return true;
+      }
+  }
 
     getUsers(){
         return axios.get(USER_API_BASE_URL + '/getUsers');

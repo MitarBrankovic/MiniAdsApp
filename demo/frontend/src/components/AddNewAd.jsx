@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import AdService from '../services/AdService';
 import Swal from 'sweetalert2';
+import UserService from '../services/UserService';
 
 class AddNewAd extends Component {
     constructor(props) {
@@ -151,6 +152,19 @@ class AddNewAd extends Component {
                 </div>
             </div>
         );
+    }
+
+    componentDidMount() {
+
+        if(UserService.isExpired()){
+            Swal.fire(
+                'Error!',
+                'Session expired!',
+                'error'
+              )
+            this.props.history.push('/');
+            setTimeout(function(){window.location.reload()}, 1500);
+        }
     }
 }
 

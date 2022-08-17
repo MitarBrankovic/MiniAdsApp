@@ -179,7 +179,7 @@ class SelectedAd extends Component {
                             <label className="col-sm-4 col-form-label mt-2" htmlFor="name"><b>Category</b></label>
                             <label className="col-sm-4 col-form-label mt-2">{this.state.status}</label><br/>
 
-                            {checkIfMyAd === true ? 
+                            {(checkIfMyAd === true && !UserService.isExpired()) ? 
                             <div className='mt-3'>
                                 <button className='button is-info' onClick={this.openEditHandler.bind(this)}>Edit</button>
                                 <button className='button is-danger ml-2' onClick={this.deleteAd.bind(this)}>Delete</button>

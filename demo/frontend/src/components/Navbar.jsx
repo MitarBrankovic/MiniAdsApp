@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import UserService from '../services/UserService';
 
 class Navbar extends Component {
 
@@ -49,6 +50,8 @@ class Navbar extends Component {
         }
         return false
     }
+
+
     
     render() {
         return (
@@ -72,7 +75,7 @@ class Navbar extends Component {
 
                             <a className="navbar-item" style={{textDecoration: "none", }}>Documentation</a>
 
-                            { this.checkIfUserIsCommon() ? <a className="navbar-item" style={{textDecoration: "none", }} onClick={this.redirectAddNewAd.bind(this)}>Add new Ad</a> : null }
+                            { (this.checkIfUserIsCommon() && !UserService.isExpired()) ? <a className="navbar-item" style={{textDecoration: "none", }} onClick={this.redirectAddNewAd.bind(this)}>Add new Ad</a> : null }
                         
                         </div>
 
@@ -81,7 +84,7 @@ class Navbar extends Component {
                             <div className="buttons">
                             
                             {
-                                this.state.loggedUser !== null ? <button className="button is-light" onClick={this.logout.bind(this)}>Logout</button> :
+                                (this.state.loggedUser !== null && !UserService.isExpired()) ? <button className="button is-light" onClick={this.logout.bind(this)}>Logout</button> :
                                 <div>
                                     <a className="button is-primary" onClick={this.redirectRegister.bind(this)}><strong>Sign up</strong></a>
                                     <button className="button is-light" onClick={this.redirectLogin.bind(this)}>Log in</button>

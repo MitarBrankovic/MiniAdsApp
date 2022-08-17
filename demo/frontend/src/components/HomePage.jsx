@@ -126,6 +126,7 @@ class HomePage extends Component {
         window.location.reload();
     }
 
+
     render() {
 
         return (
