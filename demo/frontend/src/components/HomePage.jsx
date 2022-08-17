@@ -3,6 +3,7 @@ import AdService from '../services/AdService';
 import UserService from '../services/UserService';
 import Pagination from './Pagination';
 import Moment from 'moment';
+import Carousel from 'react-bootstrap/Carousel';
 
 class HomePage extends Component {
     constructor(props) {
@@ -130,6 +131,36 @@ class HomePage extends Component {
     render() {
 
         return (
+            <div>
+
+            <Carousel>
+                <Carousel.Item>
+                    <img className="d-block w-100" style={{height:"100%", maxHeight:"340px"}} src={process.env.PUBLIC_URL + '/shop1.jpg'} alt="First slide" />
+                    <Carousel.Caption>
+                    <h3>Welcome</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    </Carousel.Caption>
+                </Carousel.Item>
+                <Carousel.Item>
+                    <img className="d-block w-100" style={{height:"100%", maxHeight:"340px"}} src={process.env.PUBLIC_URL + '/shop2.jpg'} alt="Second slide" />
+
+                    <Carousel.Caption>
+                    <h3>Welcome</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    </Carousel.Caption>
+                </Carousel.Item>
+                <Carousel.Item>
+                    <img className="d-block w-100" style={{height:"100%", maxHeight:"340px"}} src={process.env.PUBLIC_URL + '/shop3.jpg'} alt="Third slide" />
+
+                    <Carousel.Caption>
+                    <h3>Welcome</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    </Carousel.Caption>
+                </Carousel.Item>
+            </Carousel>
+
+
+
             <div className='mt-3'>
                 <div className='container' style={{"borderWidth": "1px", "borderStyle": "solid", "borderColor": "turquoise", "backgroundColor": "#FAFAFA"}}>
                     <input type='text' className='input col-sm-4 mr-2 mt-2' value={this.state.search} onChange={this.changeSearchHandler} placeholder='Search' />
@@ -190,6 +221,7 @@ class HomePage extends Component {
                         </div>
                     </div>
                 </section>
+            </div>
             </div>
         );
     }

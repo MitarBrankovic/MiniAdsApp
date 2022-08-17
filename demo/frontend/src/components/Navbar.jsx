@@ -37,6 +37,11 @@ class Navbar extends Component {
         window.location.reload()
     }
 
+    redirectAllUsers(){
+        this.props.history.push('/allUsers');
+        window.location.reload()
+    }
+
     logout(){
         localStorage.removeItem('user')
         localStorage.removeItem('token')
@@ -51,6 +56,12 @@ class Navbar extends Component {
         return false
     }
 
+    checkIfUserIsAdmin(){
+        if(this.state.loggedUser !== null && this.state.loggedUser.role.name === 'ROLE_ADMIN'){
+            return true
+        }
+        return false
+    }
 
     
     render() {
@@ -74,6 +85,8 @@ class Navbar extends Component {
                             <a className="navbar-item" style={{textDecoration: "none", }}>Home</a>
 
                             <a className="navbar-item" style={{textDecoration: "none", }}>Documentation</a>
+
+                            { this.checkIfUserIsAdmin() ? <a className="navbar-item" style={{textDecoration: "none", }} onClick={this.redirectAllUsers.bind(this)}>All users</a> : null}
 
                             { (this.checkIfUserIsCommon() && !UserService.isExpired()) ? <a className="navbar-item" style={{textDecoration: "none", }} onClick={this.redirectAddNewAd.bind(this)}>Add new Ad</a> : null }
                         
