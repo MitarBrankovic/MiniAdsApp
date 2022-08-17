@@ -102,28 +102,28 @@ class Register extends Component {
                         <div className="col-lg-12 login-title">REGISTRACIJA</div><br/>
                     
                         <label className="col-sm-4 col-form-label mt-2" htmlFor="name"><b>Username</b></label>
-                        <input name="nameInput" pattern="[a-zA-Z]+[a-zA-Z ]+" title="Enter letters only." className="input is-primary" style={{"width":"40%" }} type="text" value={this.state.username} onChange={this.changeUsernameHandler} required/>
+                        <input placeholder='marko' name="nameInput" pattern="[a-zA-Z]+[a-zA-Z ]+" title="Enter letters only." className="input is-primary" style={{"width":"40%" }} type="text" value={this.state.username} onChange={this.changeUsernameHandler} required/>
                         <br/>
 
                         <label className="col-sm-4 col-form-label mt-2" htmlFor="name"><b>Name</b></label>
-                        <input name="nameInput" pattern="[a-zA-Z]+[a-zA-Z ]+" title="Enter letters only." className="input is-primary" style={{"width":"40%" }} type="text" value={this.state.firstName} onChange={this.changeFirstNameHandler} required/>
+                        <input placeholder='Marko' name="nameInput" pattern="[a-zA-Z]+[a-zA-Z ]+" title="Enter letters only." className="input is-primary" style={{"width":"40%" }} type="text" value={this.state.firstName} onChange={this.changeFirstNameHandler} required/>
                         <br/>
                         
                         <label className="col-sm-4 col-form-label mt-2" htmlFor="surname"><b>Surname</b></label>
-                        <input pattern="[a-zA-Z]+[a-zA-Z ]+" title="Enter letters only." className="input is-primary" style={{"width":"40%" }} type="text" value={this.state.lastName} onChange={this.changeLastNameHandler} required/>
+                        <input placeholder='Markovic' pattern="[a-zA-Z]+[a-zA-Z ]+" title="Enter letters only." className="input is-primary" style={{"width":"40%" }} type="text" value={this.state.lastName} onChange={this.changeLastNameHandler} required/>
                         <br/>
 
                         <label className="col-sm-4 col-form-label mt-2" htmlFor="password"><b>Password</b></label>
-                        <input id="password" pattern="(?=.*\d)(?=.*[a-zA-Z]).{8,}" className="input is-primary" style={{"width":"40%" }} minLength="8" type="password" value={this.state.password} onChange={this.changePasswordHandler} required/>
+                        <input placeholder='Jabuka123!' id="password" pattern="(?=.*\d)(?=.*[a-zA-Z]).{8,}" className="input is-primary" style={{"width":"40%" }} minLength="8" type="password" value={this.state.password} onChange={this.changePasswordHandler} required/>
                         <br/>
                         
                         <label className="col-sm-4 col-form-label mt-2" htmlFor="password-repeat"><b>Repeat password</b></label>
-                        <input id="confirmPassword" pattern="(?=.*\d)(?=.*[a-zA-Z]).{8,}" className="input is-primary" style={{"width":"40%" }} minLength="8" type="password" value={this.state.confirmPassword} onChange={this.changeConfirmPasswordHandler}  required/>
+                        <input placeholder='Jabuka123!' id="confirmPassword" pattern="(?=.*\d)(?=.*[a-zA-Z]).{8,}" className="input is-primary" style={{"width":"40%" }} minLength="8" type="password" value={this.state.confirmPassword} onChange={this.changeConfirmPasswordHandler}  required/>
                         <br/>
 
 
                         <label className="col-sm-4 col-form-label mt-2" htmlFor="phoneNumber"><b>PhoneNumber</b></label>
-                        <input pattern="[0-9]+" title="Enter numbers only." className="input is-primary" style={{"width":"40%" }} type="text" value={this.state.phoneNumber} onChange={this.changePhoneNumberHandler} required/>
+                        <input placeholder='123456789' pattern="[0-9]+" title="Enter numbers only." className="input is-primary" style={{"width":"40%" }} type="text" value={this.state.phoneNumber} onChange={this.changePhoneNumberHandler} required/>
                         <br/><br/>
                         
                         <button id="submit" className="button" type="submit" disabled>Register</button>
