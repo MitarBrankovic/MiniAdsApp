@@ -88,7 +88,7 @@ class HomePage extends Component {
             maxValue : this.state.maxPrice,
             category : this.state.category,
             isMine : this.state.isMine,
-            userId : UserService.state.loggedUser.id
+            userId : this.state.loggedUser.id
         }
         return AdService.searchAds(search).then((res)=>{
             this.setState({
