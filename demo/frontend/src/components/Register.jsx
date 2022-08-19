@@ -67,6 +67,11 @@ class Register extends Component {
         this.setState({dateOfRegistration: e.target.value});
     }
 
+    redirectLogin(){
+        this.props.history.push('/login');
+        window.location.reload()
+    }
+
 
     register(e) {
         e.preventDefault();
@@ -128,7 +133,7 @@ class Register extends Component {
                         
                         <button id="submit" className="button" type="submit" disabled>Register</button>
                         <div className="container signin">
-                            <p>Vec imate nalog? <a href="#/login">Sign in</a>.</p>
+                            <p>Vec imate nalog? <a style={{color:"blue"}} onClick={this.redirectLogin.bind(this)}>Sign in</a>.</p>
                         </div>
                     </div>
                 </form>

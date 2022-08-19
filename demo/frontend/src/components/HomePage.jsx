@@ -198,7 +198,7 @@ class HomePage extends Component {
                                             <div className="card-image has-text-centered " style={{backgroundColor:"FloralWhite"}}>
                                                 <img src={process.env.PUBLIC_URL + '/images/' + item.urlPhoto} style={{maxHeight:"150px"}} alt="Placeholder"/>
                                             </div>
-                                            <div className="card-content">
+                                            <div className="card-content" style={{height: "180px"}}>
                                                 <p className="is-size-5"><b>{item.name}</b> (<i>{item.status}</i>)</p>
                                                 <p><i>{Moment(item.dateOfCreation).format('DD.MM.YYYY.')}</i></p>
                                                 <p>{item.price}rsd</p>

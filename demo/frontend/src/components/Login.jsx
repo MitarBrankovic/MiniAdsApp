@@ -26,6 +26,11 @@ class Login extends Component {
         this.setState({password: e.target.value});
     }
 
+    redirectRegister(){
+        this.props.history.push('/register');
+        window.location.reload()
+    }
+
 
     login(e) {
         e.preventDefault();
@@ -75,7 +80,7 @@ class Login extends Component {
                                     <button className="button is-primary" type="submit">Login</button>
                                     <br/><br/>
                                     <div className="container signin">
-                                        <p>Nemate nalog? <a href="#/register">Register</a>.</p><br/><br/>
+                                        <p>Nemate nalog? <a style={{color:"blue"}} onClick={this.redirectRegister.bind(this)}>Register</a>.</p><br/><br/>
                                     </div>
                                 </div>
                             </form>

@@ -38,7 +38,7 @@ class AllUsers extends Component {
                                                 <th style={{fontWeight: "normal"}}>{item.username}</th>
                                                 <th style={{fontWeight: "normal"}}>{item.firstName} {item.lastName}</th>
                                                 <th style={{fontWeight: "normal"}}>{item.phoneNumber}</th>
-                                                <th style={{fontWeight: "normal"}}>{Moment(item.dateOfRegistrion).format('DD.MM.YYYY.')}</th>
+                                                <th style={{fontWeight: "normal"}}>{Moment(item.dateOfRegistration).format('DD.MM.YYYY.')}</th>
                                                 <th style={{fontWeight: "normal"}}>{(item.role.name === "ROLE_ADMIN") ? "Admin" : "User"}</th>
 
                                             </tr>})
