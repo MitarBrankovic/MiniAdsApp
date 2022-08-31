@@ -3,6 +3,7 @@ import './App.css';
 import 'bulma/css/bulma.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './CSS/login.css'
+import './CSS/messages.css'
 
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import HomePage from './components/HomePage';
@@ -12,6 +13,19 @@ import Register from './components/Register';
 import SelectedAd from './components/SelectedAd';
 import AddNewAd from './components/AddNewAd';
 import AllUsers from './components/AllUsers';
+
+import firebase from 'firebase/compat/app';
+const firebaseConfig = {
+  apiKey: "AIzaSyCGzjuszoNvcYF6klp2ly4szmT3c5pQsBo",
+  authDomain: "mini-ads-app.firebaseapp.com",
+  databaseURL: "https://mini-ads-app-default-rtdb.firebaseio.com",
+  projectId: "mini-ads-app",
+  storageBucket: "mini-ads-app.appspot.com",
+  messagingSenderId: "622211083289",
+  appId: "1:622211083289:web:3fb3a1944f1ebf867ece88",
+  measurementId: "G-PXMPT336WR"
+};
+firebase.initializeApp(firebaseConfig);
 
 function App() {
   return (

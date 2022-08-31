@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import UserService from '../services/UserService';
+import firebase from 'firebase/compat/app';
+import "firebase/compat/database";
 
 class Login extends Component {
 
@@ -40,8 +42,22 @@ class Login extends Component {
             UserService.swalSuccess('Logged in successfully');
             localStorage.setItem('user', JSON.stringify(res.data.user))
             localStorage.setItem('jwtToken', JSON.stringify(res.data.token))
-            this.props.history.push('/');
-            window.location.reload()
+
+
+            firebase.database().ref('users/').orderByChild('username').equalTo(this.state.username).once('value', snapshot => {
+                if (snapshot.exists()) {
+                    this.props.history.push('/');
+                    window.location.reload()
+                } else {
+                  const newUser = firebase.database().ref('users/').push();
+                  newUser.set(res.data.user);
+                  this.props.history.push('/');
+                  window.location.reload()
+                }
+              });
+
+
+
         }).catch((err) => {
             UserService.swalError('Wrong credentials');
             console.log(err);

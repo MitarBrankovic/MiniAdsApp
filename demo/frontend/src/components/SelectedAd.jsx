@@ -3,6 +3,21 @@ import AdService from '../services/AdService';
 import Moment from 'moment';
 import Swal from 'sweetalert2';
 import UserService from '../services/UserService';
+import firebase from 'firebase/compat/app';
+import "firebase/compat/database";
+
+
+export const snapshotToArray = (snapshot) => {
+    const returnArr = [];
+  
+    snapshot.forEach((childSnapshot) => {
+        const item = childSnapshot.val();
+        item.key = childSnapshot.key;
+        returnArr.push(item);
+    });
+  
+    return returnArr;
+  };
 
 class SelectedAd extends Component {
 
@@ -22,7 +37,8 @@ class SelectedAd extends Component {
             isEdit: false,
 
             adsByUser: [],
-            urlPhotoHelper: ''
+            urlPhotoHelper: '',
+            roomname: ''
         }
 
         this.changeNameHandler = this.changeNameHandler.bind(this);
@@ -140,6 +156,46 @@ class SelectedAd extends Component {
                 })
             }
           })
+    }
+
+    message(){
+
+        this.checkRoomname()
+
+        firebase.database().ref('roomusers/').orderByChild('roomname').equalTo(this.state.roomname).on('value', (resp) => {
+            
+            let roomuser = [];
+            roomuser = snapshotToArray(resp);
+            const user = roomuser.find(x => x.username === this.state.loggedUser.username);
+            if (user !== undefined) {
+              const userRef = firebase.database().ref('roomusers/' + user.key);
+              userRef.update({status: 'online'});
+            } else {
+              const newroomuser = { roomname: '', username: '', status: '' };
+              newroomuser.roomname = this.state.roomname;
+              newroomuser.username = this.state.loggedUser.username;
+              newroomuser.status = 'online';
+              const newRoomUser = firebase.database().ref('roomusers/').push();
+              newRoomUser.set(newroomuser);
+            }
+          });
+    }
+
+    checkRoomname(){
+        this.state.roomname = this.state.loggedUser.username + this.state.owner.username;
+        firebase.database().ref('roomusers/').orderByChild('roomname').on('value', (resp) => {    
+            let roomuser = [];
+            roomuser = snapshotToArray(resp);
+            let exists = false
+            for(let u of roomuser){
+                if(u.roomname === this.state.roomname){
+                    exists = true;
+                    break;
+                }
+            } 
+            if(!exists)
+                this.state.roomname = this.state.owner.username + this.state.loggedUser.username
+          });
     }
 
 
@@ -263,7 +319,8 @@ class SelectedAd extends Component {
                             <label className="col-sm-4 col-form-label mt-2">{this.state.owner.phoneNumber}</label><br/>
 
                             <label className="col-sm-4 col-form-label mt-2 mr-1" htmlFor="name"><b>Date of registration</b></label>
-                            <label className="col-sm-4 col-form-label mt-2">{Moment(this.state.owner.dateOfRegistrion).format('DD.MM.YYYY.')}</label><br/>
+                            <label className="col-sm-4 col-form-label mt-2">{Moment(this.state.owner.dateOfRegistrion).format('DD.MM.YYYY.')}</label><br/><br/>
+                            <button className='button is-primary mb-3' onClick={this.message.bind(this)}>Message</button>
                         </div>
                         <br/><br/><br/><br/>
 
