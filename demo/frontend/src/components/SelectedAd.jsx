@@ -162,11 +162,11 @@ class SelectedAd extends Component {
 
         this.checkRoomname()
 
-        firebase.database().ref('roomusers/').orderByChild('roomname').equalTo(this.state.roomname).on('value', (resp) => {
+        firebase.database().ref('roomusers/').orderByChild('roomname').on('value', (resp) => {
             
             let roomuser = [];
             roomuser = snapshotToArray(resp);
-            const user = roomuser.find(x => x.username === this.state.loggedUser.username);
+            const user = roomuser.find(x => (x => x.roomname === this.state.roomname) && (x.username === this.state.loggedUser.username));
             if (user !== undefined) {
               const userRef = firebase.database().ref('roomusers/' + user.key);
               userRef.update({status: 'online'});
@@ -178,7 +178,10 @@ class SelectedAd extends Component {
               const newRoomUser = firebase.database().ref('roomusers/').push();
               newRoomUser.set(newroomuser);
             }
+            this.redirectMessages(this.state.roomname)
           });
+
+          
     }
 
     checkRoomname(){
@@ -196,6 +199,11 @@ class SelectedAd extends Component {
             if(!exists)
                 this.state.roomname = this.state.owner.username + this.state.loggedUser.username
           });
+    }
+
+    redirectMessages(roomname){
+        this.props.history.push(`/messages/${roomname}`)
+        window.location.reload();
     }
 
 
@@ -320,11 +328,11 @@ class SelectedAd extends Component {
 
                             <label className="col-sm-4 col-form-label mt-2 mr-1" htmlFor="name"><b>Date of registration</b></label>
                             <label className="col-sm-4 col-form-label mt-2">{Moment(this.state.owner.dateOfRegistrion).format('DD.MM.YYYY.')}</label><br/><br/>
-                            <button className='button is-primary mb-3' onClick={this.message.bind(this)}>Message</button>
+                            <button className='button is-primary mb-3' onClick={this.message.bind(this)}><i className="bi bi-envelope mr-2"></i>Message</button>
                         </div>
                         <br/><br/><br/><br/>
 
-                        <div style={{ height: "250px", overflow: "auto", borderWidth: "1px", borderStyle: "solid", borderColor: "turquoise", backgroundColor: "#FAFAFA" }}>
+                        <div className='tableScroll' style={{ height: "250px", overflow: "auto", borderWidth: "1px", borderStyle: "solid", borderColor: "turquoise", backgroundColor: "#FAFAFA" }}>
                         <h4 className='is-center' style={{textAlign: "center"}}>More products by this seller</h4>
                             <table className='table is-striped is-narrow is-hoverable is-fullwidth mt-2'>
                                 <tbody>

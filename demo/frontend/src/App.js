@@ -15,6 +15,7 @@ import AddNewAd from './components/AddNewAd';
 import AllUsers from './components/AllUsers';
 
 import firebase from 'firebase/compat/app';
+import Messages from './components/Messages';
 const firebaseConfig = {
   apiKey: "AIzaSyCGzjuszoNvcYF6klp2ly4szmT3c5pQsBo",
   authDomain: "mini-ads-app.firebaseapp.com",
@@ -40,7 +41,7 @@ function App() {
                           <Route path = "/selectedAd/:id" component = {SelectedAd}></Route>
                           <Route path = "/addNewAd" component = {AddNewAd}></Route>
                           <Route path = "/allUsers" component = {AllUsers}></Route>
-
+                          <Route path = "/messages" component = {Messages}></Route>
                     </Switch>
                 </div>
         </Router>

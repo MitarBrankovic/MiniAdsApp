@@ -154,3 +154,31 @@
     overflow-y: scroll;
     height: 600px;
   }
+
+  .chat-content::-webkit-scrollbar {
+    width: 12px;               /* width of the entire scrollbar */
+  }
+  
+  .chat-content::-webkit-scrollbar-track {
+    background: gainsboro;        /* color of the tracking area */
+  }
+  
+  .chat-content::-webkit-scrollbar-thumb {
+    background-color: turquoise;    /* color of the scroll thumb */
+    border-radius: 20px;       /* roundness of the scroll thumb */
+    border: 3px solid Aquamarine;  /* creates padding around scroll thumb */
+  }
+
+  .tableScroll::-webkit-scrollbar {
+    width: 12px;               /* width of the entire scrollbar */
+  }
+  
+  .tableScroll::-webkit-scrollbar-track {
+    background: gainsboro;        /* color of the tracking area */
+  }
+  
+  .tableScroll::-webkit-scrollbar-thumb {
+    background-color: turquoise;    /* color of the scroll thumb */
+    border-radius: 20px;       /* roundness of the scroll thumb */
+    border: 3px solid Aquamarine;  /* creates padding around scroll thumb */
+  }
