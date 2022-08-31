@@ -166,7 +166,7 @@ class SelectedAd extends Component {
             
             let roomuser = [];
             roomuser = snapshotToArray(resp);
-            const user = roomuser.find(x => (x => x.roomname === this.state.roomname) && (x.username === this.state.loggedUser.username));
+            const user = roomuser.find(x => x.roomname === this.state.roomname && x.username === this.state.loggedUser.username);
             if (user !== undefined) {
               const userRef = firebase.database().ref('roomusers/' + user.key);
               userRef.update({status: 'online'});

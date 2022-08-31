@@ -32,6 +32,11 @@ class Messages extends Component {
             chats : [],
         }
 
+        if(this.state.loggedUser === null){
+            this.props.history.push(`/`)
+            window.location.reload();
+        }
+
         this.state.username = this.state.loggedUser.username;
         this.state.roomname = window.location.pathname.split('/')[2];
 
@@ -124,6 +129,7 @@ class Messages extends Component {
 
         firebase.database().ref('roomusers/').orderByChild('roomname').equalTo(this.state.roomname).on('value', (resp2) => {
             this.setState({
+                users: snapshotToArray(resp2),
                 users: snapshotToArray(resp2)
             })
         });
