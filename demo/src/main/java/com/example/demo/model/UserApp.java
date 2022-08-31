@@ -40,6 +40,9 @@ public class UserApp implements Serializable, UserDetails {
     @Column
     private LocalDateTime dateOfRegistration;
 
+    @Column
+    private boolean isBanned;
+
     @ManyToOne()
     @JoinColumn(name = "role_id")
     private Role role;
@@ -53,7 +56,7 @@ public class UserApp implements Serializable, UserDetails {
 
     public UserApp() {}
 
-    public UserApp(String username, String password, String firstName, String lastName, String phoneNumber, LocalDateTime dateOfRegistration, Role role) {
+    public UserApp(String username, String password, String firstName, String lastName, String phoneNumber, LocalDateTime dateOfRegistration, Role role, boolean isBanned) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
@@ -61,6 +64,7 @@ public class UserApp implements Serializable, UserDetails {
         this.phoneNumber = phoneNumber;
         this.dateOfRegistration = dateOfRegistration;
         this.role = role;
+        this.isBanned = isBanned;
     }
 
     @Override

@@ -15,4 +15,8 @@ public interface UserService {
     UserApp findByUsername(String username);
 
     LoginResponse login(LoginRequest request);
+
+    void ban(String username);
+
+    void unban(String username);
 }

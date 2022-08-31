@@ -50,6 +50,13 @@ class Navbar extends Component {
         window.location.reload()
     }
 
+    checkIfUserIsBanned(){
+        if(this.state.loggedUser !== null && this.state.loggedUser.banned){
+            return true
+        }
+        return false
+    }
+
     checkIfUserIsCommon(){
         if(this.state.loggedUser !== null && this.state.loggedUser.role.name === 'ROLE_COMMON'){
             return true
@@ -128,7 +135,7 @@ class Navbar extends Component {
 
                             { (this.checkIfUserIsAdmin() && !UserService.isExpired()) ? <a className="navbar-item" style={{textDecoration: "none", }} onClick={this.redirectAllUsers.bind(this)}>All users</a> : null}
 
-                            { (this.checkIfUserIsCommon() && !UserService.isExpired()) ? <a className="navbar-item" style={{textDecoration: "none", }} onClick={this.redirectAddNewAd.bind(this)}>Add new Ad</a> : null }
+                            { (this.checkIfUserIsCommon() && !UserService.isExpired() && !this.checkIfUserIsBanned()) ? <a className="navbar-item" style={{textDecoration: "none", }} onClick={this.redirectAddNewAd.bind(this)}>Add new Ad</a> : null }
                         
                         </div>
 

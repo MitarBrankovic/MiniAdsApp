@@ -54,4 +54,18 @@ public class UserController {
     public ResponseEntity<List<UserApp>> getUsers() {
         return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
     }
+
+    @RequestMapping("/ban/{username}")
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity ban(@PathVariable("username") String username){
+        userService.ban(username);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @RequestMapping("/unban/{username}")
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity unban(@PathVariable("username") String username){
+        userService.unban(username);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 }

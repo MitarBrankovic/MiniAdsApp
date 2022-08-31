@@ -39,6 +39,14 @@ class UserService {
         return axios.post(USER_API_BASE_URL + '/register', registerDto);
     }
 
+    ban(username){
+      return axios.post(USER_API_BASE_URL + '/ban/' + username);
+    }
+
+    unban(username){
+      return axios.post(USER_API_BASE_URL + '/unban/' + username);
+    }
+
     swalSuccess(text) {
         const Toast = Swal.mixin({
             toast: true,

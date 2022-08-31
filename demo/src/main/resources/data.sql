@@ -1,24 +1,24 @@
 insert into role (id, name) values (0, 'ROLE_ADMIN');
 insert into role (id, name) values (1, 'ROLE_COMMON');
 
-insert into user_app (id, username,password, first_name, last_name, phone_number, date_of_registration, role_id) values ( nextval('user_id_seq_gen'), 'admin', 'admin', 'Admin', 'Addminic', '1253235', '2019-01-01', 0);
-insert into user_app (id, username,password, first_name, last_name, phone_number, date_of_registration, role_id) values ( nextval('user_id_seq_gen'), 'pera', '123', 'Pera', 'Peric', '1253235', '2019-02-01', 1);
+insert into user_app (id, username,password, first_name, last_name, phone_number, date_of_registration, role_id, is_banned) values ( nextval('user_id_seq_gen'), 'admin', 'admin', 'Admin', 'Addminic', '1253235', '2019-01-01', 0, false);
+insert into user_app (id, username,password, first_name, last_name, phone_number, date_of_registration, role_id, is_banned) values ( nextval('user_id_seq_gen'), 'pera', '123', 'Pera', 'Peric', '1253235', '2019-02-01', 1, false);
 
-insert into user_app (id, username,password, first_name, last_name, phone_number, date_of_registration, role_id) values ( nextval('user_id_seq_gen'), 'djura', '123', 'Djura', 'Djuric', '2253235', '2016-02-01', 1);
-insert into user_app (id, username,password, first_name, last_name, phone_number, date_of_registration, role_id) values ( nextval('user_id_seq_gen'), 'mika', '123', 'Mika', 'Mikic', '1243235', '2019-05-01', 1);
-insert into user_app (id, username,password, first_name, last_name, phone_number, date_of_registration, role_id) values ( nextval('user_id_seq_gen'), 'zika', '123', 'Zika', 'Zikic', '523235', '2019-02-11', 1);
-insert into user_app (id, username,password, first_name, last_name, phone_number, date_of_registration, role_id) values ( nextval('user_id_seq_gen'), 'tika', '123', 'Tika', 'Tikic', '533235', '2016-03-21', 1);
-insert into user_app (id, username,password, first_name, last_name, phone_number, date_of_registration, role_id) values ( nextval('user_id_seq_gen'), 'mane', '123', 'Mane', 'Manic', '123235', '2014-02-01', 1);
-insert into user_app (id, username,password, first_name, last_name, phone_number, date_of_registration, role_id) values ( nextval('user_id_seq_gen'), 'dane', '123', 'Dane', 'Danic', '54343567', '2020-05-23', 1);
-insert into user_app (id, username,password, first_name, last_name, phone_number, date_of_registration, role_id) values ( nextval('user_id_seq_gen'), 'zare', '123', 'Zare', 'Zaric', '8797854', '2020-05-04', 1);
-insert into user_app (id, username,password, first_name, last_name, phone_number, date_of_registration, role_id) values ( nextval('user_id_seq_gen'), 'kale', '123', 'Kale', 'Kalic', '86974643', '2018-02-21', 1);
-insert into user_app (id, username,password, first_name, last_name, phone_number, date_of_registration, role_id) values ( nextval('user_id_seq_gen'), 'darko', '123', 'Darko', 'Darkovic', '9734563', '2016-03-11', 1);
-insert into user_app (id, username,password, first_name, last_name, phone_number, date_of_registration, role_id) values ( nextval('user_id_seq_gen'), 'goran', '123', 'Goran', 'Goranovic', '865363', '2022-02-07', 1);
-insert into user_app (id, username,password, first_name, last_name, phone_number, date_of_registration, role_id) values ( nextval('user_id_seq_gen'), 'zarko', '123', 'Zarko', 'Zarkovic', '3466785', '2016-11-01', 1);
-insert into user_app (id, username,password, first_name, last_name, phone_number, date_of_registration, role_id) values ( nextval('user_id_seq_gen'), 'ana', '123', 'Ana', 'Anic', '754223', '2019-04-22', 1);
-insert into user_app (id, username,password, first_name, last_name, phone_number, date_of_registration, role_id) values ( nextval('user_id_seq_gen'), 'tamara', '123', 'Tamara', 'Tamaric', '543223', '2014-04-11', 1);
-insert into user_app (id, username,password, first_name, last_name, phone_number, date_of_registration, role_id) values ( nextval('user_id_seq_gen'), 'mia', '123', 'Mia', 'Mijic', '3242343', '2016-06-21', 1);
-insert into user_app (id, username,password, first_name, last_name, phone_number, date_of_registration, role_id) values ( nextval('user_id_seq_gen'), 'jana', '123', 'Jana', 'Janic', '154352', '2014-05-01', 1);
+insert into user_app (id, username,password, first_name, last_name, phone_number, date_of_registration, role_id, is_banned) values ( nextval('user_id_seq_gen'), 'djura', '123', 'Djura', 'Djuric', '2253235', '2016-02-01', 1, false);
+insert into user_app (id, username,password, first_name, last_name, phone_number, date_of_registration, role_id, is_banned) values ( nextval('user_id_seq_gen'), 'mika', '123', 'Mika', 'Mikic', '1243235', '2019-05-01', 1, false);
+insert into user_app (id, username,password, first_name, last_name, phone_number, date_of_registration, role_id, is_banned) values ( nextval('user_id_seq_gen'), 'zika', '123', 'Zika', 'Zikic', '523235', '2019-02-11', 1, false);
+insert into user_app (id, username,password, first_name, last_name, phone_number, date_of_registration, role_id, is_banned) values ( nextval('user_id_seq_gen'), 'tika', '123', 'Tika', 'Tikic', '533235', '2016-03-21', 1, false);
+insert into user_app (id, username,password, first_name, last_name, phone_number, date_of_registration, role_id, is_banned) values ( nextval('user_id_seq_gen'), 'mane', '123', 'Mane', 'Manic', '123235', '2014-02-01', 1, false);
+insert into user_app (id, username,password, first_name, last_name, phone_number, date_of_registration, role_id, is_banned) values ( nextval('user_id_seq_gen'), 'dane', '123', 'Dane', 'Danic', '54343567', '2020-05-23', 1, false);
+insert into user_app (id, username,password, first_name, last_name, phone_number, date_of_registration, role_id, is_banned) values ( nextval('user_id_seq_gen'), 'zare', '123', 'Zare', 'Zaric', '8797854', '2020-05-04', 1, false);
+insert into user_app (id, username,password, first_name, last_name, phone_number, date_of_registration, role_id, is_banned) values ( nextval('user_id_seq_gen'), 'kale', '123', 'Kale', 'Kalic', '86974643', '2018-02-21', 1, false);
+insert into user_app (id, username,password, first_name, last_name, phone_number, date_of_registration, role_id, is_banned) values ( nextval('user_id_seq_gen'), 'darko', '123', 'Darko', 'Darkovic', '9734563', '2016-03-11', 1, false);
+insert into user_app (id, username,password, first_name, last_name, phone_number, date_of_registration, role_id, is_banned) values ( nextval('user_id_seq_gen'), 'goran', '123', 'Goran', 'Goranovic', '865363', '2022-02-07', 1, false);
+insert into user_app (id, username,password, first_name, last_name, phone_number, date_of_registration, role_id, is_banned) values ( nextval('user_id_seq_gen'), 'zarko', '123', 'Zarko', 'Zarkovic', '3466785', '2016-11-01', 1, false);
+insert into user_app (id, username,password, first_name, last_name, phone_number, date_of_registration, role_id, is_banned) values ( nextval('user_id_seq_gen'), 'ana', '123', 'Ana', 'Anic', '754223', '2019-04-22', 1, false);
+insert into user_app (id, username,password, first_name, last_name, phone_number, date_of_registration, role_id, is_banned) values ( nextval('user_id_seq_gen'), 'tamara', '123', 'Tamara', 'Tamaric', '543223', '2014-04-11', 1, false);
+insert into user_app (id, username,password, first_name, last_name, phone_number, date_of_registration, role_id, is_banned) values ( nextval('user_id_seq_gen'), 'mia', '123', 'Mia', 'Mijic', '3242343', '2016-06-21', 1, false);
+insert into user_app (id, username,password, first_name, last_name, phone_number, date_of_registration, role_id, is_banned) values ( nextval('user_id_seq_gen'), 'jana', '123', 'Jana', 'Janic', '154352', '2014-05-01', 1, false);
 
 insert into ad (id, name, description, url_photo, price, status, user_id, city, date_of_creation) values ( nextval('ad_id_seq_gen'), 'Nakovanj', 'Opis oglasa', 'tools.jpg', 22300, 'tools', 17, 'Novi Sad', '2018-02-01');
 insert into ad (id, name, description, url_photo, price, status, user_id, city, date_of_creation) values ( nextval('ad_id_seq_gen'), 'Papagaj', 'Opis oglasa', 'pets.jpg', 1230, 'pets', 16, 'Novi Sad', '2014-02-01');

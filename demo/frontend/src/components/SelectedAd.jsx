@@ -243,7 +243,7 @@ class SelectedAd extends Component {
                             <label className="col-sm-4 col-form-label mt-2" htmlFor="name"><b>Category</b></label>
                             <label className="col-sm-4 col-form-label mt-2">{this.state.status}</label><br/>
 
-                            {(checkIfMyAd === true && !UserService.isExpired()) ? 
+                            {(checkIfMyAd && !UserService.isExpired()) ? 
                             <div className='mt-3'>
                                 <button className='button is-info' onClick={this.openEditHandler.bind(this)}>Edit</button>
                                 <button className='button is-danger ml-2' onClick={this.deleteAd.bind(this)}>Delete</button>
@@ -328,7 +328,9 @@ class SelectedAd extends Component {
 
                             <label className="col-sm-4 col-form-label mt-2 mr-1" htmlFor="name"><b>Date of registration</b></label>
                             <label className="col-sm-4 col-form-label mt-2">{Moment(this.state.owner.dateOfRegistrion).format('DD.MM.YYYY.')}</label><br/><br/>
-                            <button className='button is-primary mb-3' onClick={this.message.bind(this)}><i className="bi bi-envelope mr-2"></i>Message</button>
+                            {(!checkIfMyAd && !UserService.isExpired()) ? 
+                                <button className='button is-primary mb-3' onClick={this.message.bind(this)}><i className="bi bi-envelope mr-2"></i>Message</button> : null
+                            }
                         </div>
                         <br/><br/><br/><br/>
 

@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 userRegistrationDTO.getLastName(),
                 userRegistrationDTO.getPhoneNumber(),
                 userRegistrationDTO.getDateOfRegistration(),
-                roleRepository.findById(1L).orElseThrow()));
+                roleRepository.findById(1L).orElseThrow(), false));
     }
 
     @Override
@@ -88,5 +88,21 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 return null;
         }
     }
+
+    @Override
+    public void ban(String username) {
+        UserApp user = userRepository.findByUsername(username);
+        user.setBanned(true);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void unban(String username) {
+        UserApp user = userRepository.findByUsername(username);
+        user.setBanned(false);
+        userRepository.save(user);
+    }
+
+
 }
 

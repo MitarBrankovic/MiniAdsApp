@@ -15,10 +15,28 @@ class AllUsers extends Component {
         
     }
 
+    ban(username){
+        UserService.ban(username).then(()=>{
+            UserService.swalSuccess('Banned successfully');
+            window.location.reload()
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
+    unban(username){
+        UserService.unban(username).then(()=>{
+            UserService.swalSuccess('Unbanned successfully');
+            window.location.reload()
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+
     render() {
         return (
                 <div style={{marginTop: "30px"}}>
-                    <h2 style={{textAlign: "center", color: "MediumTurquoise"}}>Svi korisnici</h2>
+                    <h2 style={{textAlign: "center", color: "MediumTurquoise"}}>All users</h2>
                     <div className="container-fluid mt-3">
                         <table className="table is-striped is-hoverable">
                             <thead>
@@ -40,6 +58,10 @@ class AllUsers extends Component {
                                                 <th style={{fontWeight: "normal"}}>{item.phoneNumber}</th>
                                                 <th style={{fontWeight: "normal"}}>{Moment(item.dateOfRegistration).format('DD.MM.YYYY.')}</th>
                                                 <th style={{fontWeight: "normal"}}>{(item.role.name === "ROLE_ADMIN") ? "Admin" : "User"}</th>
+                                                {item.role.name !== "ROLE_ADMIN" ?
+                                                <th style={{fontWeight: "normal"}}>{!item.banned
+                                                ? <button className='button is-danger' onClick={() => this.ban(item.username)}>Ban</button>
+                                                : <button className='button is-primary' onClick={() => this.unban(item.username)}>Unban</button>}</th>: null}
 
                                             </tr>})
                                 }
