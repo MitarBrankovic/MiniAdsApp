@@ -3,6 +3,8 @@ import AdService from '../services/AdService';
 import Moment from 'moment';
 import Swal from 'sweetalert2';
 import UserService from '../services/UserService';
+import BiddingService from '../services/BiddingService';
+import Modal from 'react-bootstrap/Modal';
 import firebase from 'firebase/compat/app';
 import "firebase/compat/database";
 
@@ -35,10 +37,16 @@ class SelectedAd extends Component {
             city: '',
             urlPhoto: '',
             isEdit: false,
+            biddingPrice: '',
+            highestBid: 0,
+            show: false,
+            allBidsByAd: [],
 
             adsByUser: [],
             urlPhotoHelper: '',
             roomname: ''
+
+            
         }
 
         this.changeNameHandler = this.changeNameHandler.bind(this);
@@ -47,6 +55,18 @@ class SelectedAd extends Component {
         this.changePriceHandler = this.changePriceHandler.bind(this);
         this.changeCityHandler = this.changeCityHandler.bind(this);
         this.changeUrlPhotoHandler = this.changeUrlPhotoHandler.bind(this);
+        this.changeBiddingPriceHandler = this.changeBiddingPriceHandler.bind(this);
+
+        this.changeShowHandler = this.changeShowHandler.bind(this);
+        this.changeShowHandler2 = this.changeShowHandler2.bind(this);
+    }
+
+    changeShowHandler(e) {
+        this.setState({show: true});
+    }
+
+    changeShowHandler2(e) {
+        this.setState({show: false});
     }
 
     changeNameHandler(e) {
@@ -67,6 +87,10 @@ class SelectedAd extends Component {
 
     changeCityHandler(e) {
         this.setState({city: e.target.value});
+    }
+
+    changeBiddingPriceHandler(e) {
+        this.setState({biddingPrice: e.target.value});
     }
 
     changeUrlPhotoHandler(e) {
@@ -201,6 +225,20 @@ class SelectedAd extends Component {
           });
     }
 
+    bid(){
+        let dto = {
+            userId: this.state.loggedUser.id,
+            currentPrice: this.state.biddingPrice,
+            adId: this.state.ad.id
+        }
+        AdService.bid(dto).then(()=>{
+            UserService.swalSuccess('Bid successfully placed!')
+            setTimeout(function(){window.location.reload()}, 1000);
+        }).catch(err=>{
+            UserService.swalSuccess('Your bid has not been placed.')
+        })
+    }
+
     redirectMessages(roomname){
         this.props.history.push(`/messages/${roomname}`)
         window.location.reload();
@@ -227,7 +265,7 @@ class SelectedAd extends Component {
                         <div className="col-lg-12 login-title mt-5">{this.state.name}</div><br/>
 
                         {!this.state.isEdit ? 
-                        <div>
+                        <div>         
                             <label className="col-sm-4 col-form-label mt-2" htmlFor="name"><b>Name</b></label>
                             <label className="col-sm-4 col-form-label mt-2">{this.state.name}</label><br/>
 
@@ -311,6 +349,16 @@ class SelectedAd extends Component {
                    </div>   
 
                    <div className='column'>
+
+                        <div>
+                            <label className="col-sm-4 col-form-label mt-2 mr-1" htmlFor="currentBid"><b>Current bid</b></label>
+                            <label className="col-sm-4 col-form-label mt-2">{this.state.highestBid}</label><br/>
+                            <input pattern="[0-9]+" title="Enter numbers only." className="input is-primary" style={{"width":"40%" }} type="number" value={this.state.biddingPrice} onChange={this.changeBiddingPriceHandler} required/>
+                            <button className='button is-primary ml-3' onClick={this.bid.bind(this)}>Bid</button> <br/>
+                            <a style={{color:"DarkTurquoise", fontStyle:"italic"}} onClick={this.changeShowHandler}>Show({this.state.allBidsByAd.length})</a>
+                            
+                        </div><br/>
+
                         <div className='ml-5' style={{width: "61%", borderWidth: "1px", borderStyle: "solid", borderColor: "turquoise", backgroundColor: "#FAFAFA", paddingLeft: "15px"}}>
                             <h4 className='is-center'>Information about seller</h4>
 
@@ -357,6 +405,31 @@ class SelectedAd extends Component {
                         </div>
 
                     </div>  
+
+
+
+                    <Modal show={this.state.show} onHide={this.changeShowHandler2}>
+                        <Modal.Header closeButton>
+                        <Modal.Title>Last bids</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                                <div className="card mt-5">
+
+                                {
+                                this.state.allBidsByAd.map(item =>{
+                                    return <div class="card-content" key={item.id} style={{borderBottom: "1px solid"}}>
+                                        <div class="content">
+                                            <label >{item.username}</label><br/>
+                                            <span style={{fontStyle: "italic", fontSize:"12px"}}> at {Moment(item.dateOfCreation).format('DD.MM.YYYY. HH:mm')}</span>
+                                            <label style={{float:"right"}}>{item.currentPrice} RSD</label>
+                                        </div>
+                                    </div>})
+                                }
+                                    
+                                </div>
+                            
+                        </Modal.Body>
+                    </Modal>
             </div>
         );
     }
@@ -382,6 +455,28 @@ class SelectedAd extends Component {
             }).catch((err)=>{
                 console.log(err)
             })
+
+            BiddingService.getHighestBidByAdId(res.data.id).then((res)=>{
+                this.setState({
+                    highestBid: res.data.currentPrice
+                })
+            }).catch((err)=>{
+                this.setState({
+                    highestBid: 0
+                })
+            })
+
+            BiddingService.getAllBidsByAdId(res.data.id).then((res)=>{
+                this.setState({
+                    allBidsByAd: res.data
+                })
+            }).catch((err)=>{
+                this.setState({
+                    allBidsByAd: []
+                })
+            })
+
+            
         })
 
 

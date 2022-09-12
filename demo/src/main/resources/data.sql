@@ -112,3 +112,8 @@ insert into ad (id, name, description, url_photo, price, status, user_id, city, 
 insert into ad (id, name, description, url_photo, price, status, user_id, city, date_of_creation) values ( nextval('ad_id_seq_gen'), 'Ekser', 'Opis oglasa', 'tools.jpg', 3200, 'tools', 2, 'Beograd', '2018-10-14');
 insert into ad (id, name, description, url_photo, price, status, user_id, city, date_of_creation) values ( nextval('ad_id_seq_gen'), 'Kljuc', 'Opis oglasa', 'tools.jpg', 5300, 'tools', 2, 'Beograd', '2018-10-14');
 insert into ad (id, name, description, url_photo, price, status, user_id, city, date_of_creation) values ( nextval('ad_id_seq_gen'), 'Sraf', 'Opis oglasa', 'tools.jpg', 1100, 'tools', 2, 'Beograd', '2018-10-14');
+
+
+insert into bidding (id, username, current_price, ad_id, date_of_creation) values ( nextval('bidding_id_seq_gen'), 'pera', 50, 1, '2022-09-12');
+insert into bidding (id, username, current_price, ad_id, date_of_creation) values ( nextval('bidding_id_seq_gen'), 'mika', 50, 66, '2022-09-12');
+insert into bidding (id, username, current_price, ad_id, date_of_creation) values ( nextval('bidding_id_seq_gen'), 'zika', 60, 66, '2022-09-12');
