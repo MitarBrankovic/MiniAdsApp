@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Controller
@@ -36,7 +37,7 @@ public class BiddingController {
     @RequestMapping("/create")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity create(@RequestBody BiddingDto biddingDto){
-        Bidding bidding = new Bidding(biddingDto.getUsername(), biddingDto.getCurrentPrice(), biddingDto.getAdId(), LocalDateTime.now());
+        Bidding bidding = new Bidding(biddingDto.getUsername(), biddingDto.getCurrentPrice(), biddingDto.getAdId(), LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
         biddingService.saveBidding(bidding);
         return new ResponseEntity(HttpStatus.CREATED);
     }

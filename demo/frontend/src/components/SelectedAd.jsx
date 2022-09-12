@@ -44,7 +44,11 @@ class SelectedAd extends Component {
 
             adsByUser: [],
             urlPhotoHelper: '',
-            roomname: ''
+            roomname: '',
+
+            time: {},
+            seconds: 110.0201,
+            timer: 0,
 
             
         }
@@ -56,16 +60,18 @@ class SelectedAd extends Component {
         this.changeCityHandler = this.changeCityHandler.bind(this);
         this.changeUrlPhotoHandler = this.changeUrlPhotoHandler.bind(this);
         this.changeBiddingPriceHandler = this.changeBiddingPriceHandler.bind(this);
+        this.openModalHandler = this.openModalHandler.bind(this);
+        this.closeModalHandler = this.closeModalHandler.bind(this);
 
-        this.changeShowHandler = this.changeShowHandler.bind(this);
-        this.changeShowHandler2 = this.changeShowHandler2.bind(this);
+        this.startTimer = this.startTimer.bind(this);
+        this.countDown = this.countDown.bind(this);
     }
 
-    changeShowHandler(e) {
+    openModalHandler(e) {
         this.setState({show: true});
     }
 
-    changeShowHandler2(e) {
+    closeModalHandler(e) {
         this.setState({show: false});
     }
 
@@ -226,18 +232,61 @@ class SelectedAd extends Component {
     }
 
     bid(){
-        let dto = {
-            userId: this.state.loggedUser.id,
-            currentPrice: this.state.biddingPrice,
-            adId: this.state.ad.id
+        if(!!this.state.biddingPrice && this.state.biddingPrice >= this.state.highestBid + 10){
+            let dto = {
+                username: this.state.loggedUser.username,
+                currentPrice: this.state.biddingPrice,
+                adId: this.state.ad.id
+            }
+            BiddingService.bid(dto).then(()=>{
+                UserService.swalSuccess('Bid successfully placed!')
+                setTimeout(function(){window.location.reload()}, 500);
+            }).catch(err=>{
+                UserService.swalError('Your bid has not been placed.')
+            })
         }
-        AdService.bid(dto).then(()=>{
-            UserService.swalSuccess('Bid successfully placed!')
-            setTimeout(function(){window.location.reload()}, 1000);
-        }).catch(err=>{
-            UserService.swalSuccess('Your bid has not been placed.')
-        })
     }
+
+    //#########################################TAJMER#############################################
+
+    secondsToTime(secs){
+        let hours = Math.floor(secs / (60 * 60));
+    
+        let divisor_for_minutes = secs % (60 * 60);
+        let minutes = Math.floor(divisor_for_minutes / 60);
+    
+        let divisor_for_seconds = divisor_for_minutes % 60;
+        let seconds = Math.ceil(divisor_for_seconds);
+    
+        let obj = {
+          "h": hours,
+          "m": minutes,
+          "s": seconds
+        };
+        return obj;
+      }
+    
+    
+      startTimer() {
+        if (this.state.timer == 0 && this.state.seconds > 0) {
+          this.state.timer = setInterval(this.countDown, 1000);
+        }
+      }
+    
+      countDown() {
+        let seconds = this.state.seconds - 1;
+        this.setState({
+          time: this.secondsToTime(seconds),
+          seconds: seconds,
+        });
+
+        if (seconds == 0) { 
+            //ovde kad istekne
+          clearInterval(this.state.timer);
+        }
+      }
+    
+    //############################################################################################
 
     redirectMessages(roomname){
         this.props.history.push(`/messages/${roomname}`)
@@ -352,10 +401,15 @@ class SelectedAd extends Component {
 
                         <div>
                             <label className="col-sm-4 col-form-label mt-2 mr-1" htmlFor="currentBid"><b>Current bid</b></label>
-                            <label className="col-sm-4 col-form-label mt-2">{this.state.highestBid}</label><br/>
-                            <input pattern="[0-9]+" title="Enter numbers only." className="input is-primary" style={{"width":"40%" }} type="number" value={this.state.biddingPrice} onChange={this.changeBiddingPriceHandler} required/>
-                            <button className='button is-primary ml-3' onClick={this.bid.bind(this)}>Bid</button> <br/>
-                            <a style={{color:"DarkTurquoise", fontStyle:"italic"}} onClick={this.changeShowHandler}>Show({this.state.allBidsByAd.length})</a>
+                            <label className="col-sm-4 col-form-label mt-2">{this.state.highestBid} RSD</label> <br/>    
+                            <input placeholder='Enter your bid here' pattern="[0-9]+" title="Enter numbers only." className="input is-primary" style={{"width":"40%" }} type="number" value={this.state.biddingPrice} onChange={this.changeBiddingPriceHandler} required/>
+                            <button className='button is-primary ml-3' onClick={()=> this.bid()}>Bid</button> <br/>
+                            <label style={{fontStyle: "italic", fontSize:"12px"}}>minimum {this.state.highestBid + 10} RSD</label> <br/>
+                            <a style={{color:"DarkTurquoise", fontStyle:"italic"}} onClick={this.openModalHandler}>Show({this.state.allBidsByAd.length})</a>
+
+                            {
+                                this.state.seconds >= 0 ? <label className='ml-5' style={{fontSize:"14px"}}>Remaining: <b>{this.state.time.h}h {this.state.time.m}m {this.state.time.s}s</b></label> : null
+                            }
                             
                         </div><br/>
 
@@ -408,7 +462,7 @@ class SelectedAd extends Component {
 
 
 
-                    <Modal show={this.state.show} onHide={this.changeShowHandler2}>
+                    <Modal show={this.state.show} onHide={this.closeModalHandler}>
                         <Modal.Header closeButton>
                         <Modal.Title>Last bids</Modal.Title>
                         </Modal.Header>
@@ -470,17 +524,36 @@ class SelectedAd extends Component {
                 this.setState({
                     allBidsByAd: res.data
                 })
+
+                //find the earliest date of all bids
+                let earliestDate = new Date().getTime() + 1000*60*60*24*365;
+                res.data.forEach(element => {
+                    let currentDate = new Date(element.dateOfCreation[0], element.dateOfCreation[1] - 1, element.dateOfCreation[2], element.dateOfCreation[3], element.dateOfCreation[4]).getTime();
+                    if(currentDate < earliestDate){
+                        earliestDate = currentDate;
+                    }
+                });
+
+                //set seconds on timer from first bid
+                if(res.data.length > 0){
+                    let firstDate = new Date(earliestDate)
+                    firstDate.setDate(firstDate.getDate() + 3);
+                    const dateNow = new Date();
+                    var seconds = (firstDate.getTime() - dateNow.getTime()) / 1000;
+                    if(seconds > 0){    // ako nije istekao rok licitacije(prva licitacija je starija od 3 dana - istekla je)
+                        let timeLeftVar = this.secondsToTime(seconds);
+                        this.setState({ time: timeLeftVar, seconds: seconds });
+                    }
+                }
             }).catch((err)=>{
                 this.setState({
                     allBidsByAd: []
                 })
             })
 
-            
         })
 
-
-
+        this.startTimer();
     }
 
 }
