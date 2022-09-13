@@ -47,7 +47,7 @@ class SelectedAd extends Component {
             roomname: '',
 
             time: {},
-            seconds: 110.0201,
+            seconds: 1,
             timer: 0,
 
             
@@ -209,9 +209,7 @@ class SelectedAd extends Component {
               newRoomUser.set(newroomuser);
             }
             this.redirectMessages(this.state.roomname)
-          });
-
-          
+          });    
     }
 
     checkRoomname(){
@@ -403,12 +401,12 @@ class SelectedAd extends Component {
                             <label className="col-sm-4 col-form-label mt-2 mr-1" htmlFor="currentBid"><b>Current bid</b></label>
                             <label className="col-sm-4 col-form-label mt-2">{this.state.highestBid} RSD</label> <br/>    
                             <input placeholder='Enter your bid here' pattern="[0-9]+" title="Enter numbers only." className="input is-primary" style={{"width":"40%" }} type="number" value={this.state.biddingPrice} onChange={this.changeBiddingPriceHandler} required/>
-                            <button className='button is-primary ml-3' onClick={()=> this.bid()}>Bid</button> <br/>
+                            <button disabled={(!checkIfMyAd && !UserService.isExpired()) ? false : true} className='button is-primary ml-3' onClick={()=> this.bid()}>Bid</button> <br/>
                             <label style={{fontStyle: "italic", fontSize:"12px"}}>minimum {this.state.highestBid + 10} RSD</label> <br/>
                             <a style={{color:"DarkTurquoise", fontStyle:"italic"}} onClick={this.openModalHandler}>Show({this.state.allBidsByAd.length})</a>
 
                             {
-                                this.state.seconds >= 0 ? <label className='ml-5' style={{fontSize:"14px"}}>Remaining: <b>{this.state.time.h}h {this.state.time.m}m {this.state.time.s}s</b></label> : null
+                                this.state.seconds > 1 ? <label className='ml-5' style={{fontSize:"14px"}}>Remaining: <b>{this.state.time.h}h {this.state.time.m}m {this.state.time.s}s</b></label> : null
                             }
                             
                         </div><br/>
@@ -455,7 +453,6 @@ class SelectedAd extends Component {
                                 }
                                 </tbody>
                             </table>
-
                         </div>
 
                     </div>  
@@ -468,20 +465,17 @@ class SelectedAd extends Component {
                         </Modal.Header>
                         <Modal.Body>
                                 <div className="card mt-5">
-
                                 {
                                 this.state.allBidsByAd.map(item =>{
-                                    return <div class="card-content" key={item.id} style={{borderBottom: "1px solid"}}>
-                                        <div class="content">
+                                    return <div className="card-content" key={item.id} style={{borderBottom: "1px solid"}}>
+                                        <div className="content">
                                             <label >{item.username}</label><br/>
                                             <span style={{fontStyle: "italic", fontSize:"12px"}}> at {Moment(item.dateOfCreation).format('DD.MM.YYYY. HH:mm')}</span>
                                             <label style={{float:"right"}}>{item.currentPrice} RSD</label>
                                         </div>
                                     </div>})
-                                }
-                                    
-                                </div>
-                            
+                                }                            
+                                </div>                         
                         </Modal.Body>
                     </Modal>
             </div>
@@ -554,6 +548,10 @@ class SelectedAd extends Component {
         })
 
         this.startTimer();
+        
+        if (UserService.deleteLocalStorageIfExpired()){
+            setTimeout(function(){window.location.reload()}, 1000);
+        }
     }
 
 }

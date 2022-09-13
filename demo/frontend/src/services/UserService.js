@@ -25,7 +25,17 @@ class UserService {
       }else{
           return true;
       }
-  }
+    }
+
+    deleteLocalStorageIfExpired(){
+      if(JSON.parse(localStorage.getItem('user')) !== null && this.isExpired()){
+        Swal.fire('Error!', 'Session expired!', 'error')
+        localStorage.removeItem('user')
+        localStorage.removeItem('token')
+        localStorage.clear()
+        return true;
+      }else {return false;}
+    }
 
     getUsers(){
         return axios.get(USER_API_BASE_URL + '/getUsers');

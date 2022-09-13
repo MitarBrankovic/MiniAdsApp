@@ -156,15 +156,10 @@ class AddNewAd extends Component {
 
     componentDidMount() {
 
-        if(UserService.isExpired()){
-            Swal.fire(
-                'Error!',
-                'Session expired!',
-                'error'
-              )
-            this.props.history.push('/');
-            setTimeout(function(){window.location.reload()}, 1500);
+        if (UserService.deleteLocalStorageIfExpired()){
+            setTimeout(function(){window.location.reload()}, 1000);
         }
+
     }
 }
 

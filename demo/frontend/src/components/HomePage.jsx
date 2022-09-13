@@ -242,6 +242,9 @@ class HomePage extends Component {
             })
         })
         
+        if (UserService.deleteLocalStorageIfExpired()){
+            setTimeout(function(){window.location.reload()}, 1000);
+        }
     }
 }
 
