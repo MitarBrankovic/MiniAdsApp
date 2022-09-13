@@ -1,5 +1,3 @@
-# Konkursni zadatak - Inviggo 
----
 ## Spring boot + React + PostgreSql
 ---
 
@@ -17,4 +15,10 @@
 - Provera podataka na backu uz pomoc validatora
 - HTTPS coming soon:)
 ---
+Kredencijali:
+user: pera/123
+admin:admin/admin
+
+Dodatni korisnici se nalaze u data.sql
+
 Napomena: dodatne sitnice vezane za koriscenje aplikacije se nalaze na dugbetu "Help" u navbaru. Ukoliko imate problema sa pokretanjem aplikacije, mozete me kontaktirati pomocu mail-a.
