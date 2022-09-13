@@ -229,6 +229,30 @@ class SelectedAd extends Component {
           });
     }
 
+    notification(){
+       firebase.database().ref('notifications/').orderByChild('username').on('value', (resp) => {
+
+            let notificationsByUser = [];
+            notificationsByUser = snapshotToArray(resp);
+            let date = new Date().toLocaleString();
+            const thisNotification = notificationsByUser.find(x => x.username === this.state.loggedUser.username && x.date === date);
+            if (thisNotification !== undefined) {
+                setTimeout(function(){window.location.reload()}, 300);
+            }else{
+                const newNotification = { ownerUsername: '', adName:'', biddingPrice: '', type: '', date: '', username: '' };
+                newNotification.ownerUsername = this.state.owner.username;
+                newNotification.adName = this.state.ad.name;
+                newNotification.biddingPrice = this.state.biddingPrice;
+                newNotification.type = 'bidding';
+                newNotification.date = new Date().toLocaleString();
+                newNotification.username = this.state.loggedUser.username;
+                const addNewNotif = firebase.database().ref('notifications/').push();
+                addNewNotif.set(newNotification);
+                setTimeout(function(){window.location.reload()}, 300);
+            }
+        })
+    }
+
     bid(){
         if(!!this.state.biddingPrice && this.state.biddingPrice >= this.state.highestBid + 10){
             let dto = {
@@ -236,9 +260,11 @@ class SelectedAd extends Component {
                 currentPrice: this.state.biddingPrice,
                 adId: this.state.ad.id
             }
+            
             BiddingService.bid(dto).then(()=>{
                 UserService.swalSuccess('Bid successfully placed!')
-                setTimeout(function(){window.location.reload()}, 500);
+                this.notification();
+                //setTimeout(function(){window.location.reload()}, 500);
             }).catch(err=>{
                 UserService.swalError('Your bid has not been placed.')
             })

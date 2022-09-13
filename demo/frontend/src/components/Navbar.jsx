@@ -2,6 +2,22 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import UserService from '../services/UserService';
 import Swal from 'sweetalert2';
+import Modal from 'react-bootstrap/Modal';
+import Moment from 'moment';
+import firebase from 'firebase/compat/app';
+
+
+export const snapshotToArray = (snapshot) => {
+    const returnArr = [];
+  
+    snapshot.forEach((childSnapshot) => {
+        const item = childSnapshot.val();
+        item.key = childSnapshot.key;
+        returnArr.push(item);
+    });
+  
+    return returnArr;
+  };
 
 class Navbar extends Component {
 
@@ -9,14 +25,23 @@ class Navbar extends Component {
         super(props)
 
         this.state = {
-            loggedUser: JSON.parse(localStorage.getItem('user'))
+            loggedUser: JSON.parse(localStorage.getItem('user')),
+            show: false,
+            notifications: []
         }
 
+        this.openModalHandler = this.openModalHandler.bind(this);
+        this.closeModalHandler = this.closeModalHandler.bind(this);
+    }
+
+    openModalHandler(e) {
+        this.setState({show: true});
+    }
+
+    closeModalHandler(e) {
+        this.setState({show: false});
     }
     
-    componentDidMount() {
-        this.loggedUser = JSON.parse(localStorage.getItem('user'))
-    }
 
     redirectHome(){
         this.props.history.push('/');
@@ -110,6 +135,9 @@ class Navbar extends Component {
           })
     }
 
+    removeNotificationFromFirebase(item){
+        firebase.database().ref('notifications/' + item.key).remove();
+    }
     
     render() {
         return (
@@ -144,7 +172,12 @@ class Navbar extends Component {
                             <div className="buttons">
                             
                             {
-                                (this.state.loggedUser !== null && !UserService.isExpired()) ? <button className="button is-light" onClick={this.logout.bind(this)}>Logout</button> :
+                                (this.state.loggedUser !== null && !UserService.isExpired()) ? 
+                                <div>
+                                    <button className="button is-info" onClick={this.openModalHandler}><i className="bi bi-bell-fill"></i> <span className="tag is-danger ml-1">{this.state.notifications.length}</span></button>
+                                    <button className="button is-light" onClick={this.logout.bind(this)}>Logout</button>
+
+                                </div> :
                                 <div>
                                     <a className="button is-primary" onClick={this.redirectRegister.bind(this)}><strong>Sign up</strong></a>
                                     <button className="button is-light" onClick={this.redirectLogin.bind(this)}>Log in</button>
@@ -156,8 +189,43 @@ class Navbar extends Component {
                         </div>
                     </div>
                     </nav>
+
+
+
+
+                    <Modal show={this.state.show} onHide={this.closeModalHandler}>
+                        <Modal.Header closeButton>
+                        <Modal.Title>Notifications</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                                <div className="card mt-5">
+                                {
+                                this.state.notifications.map(item =>{
+                                    return <div className="card-content" key={item.date} style={{borderBottom: "1px solid"}}>
+                                        <div className="content">
+                                            <label style={{fontSize:"14px"}}><b>{item.username}</b> bid <b>{item.biddingPrice}RSD</b> on item "{item.adName}" at <i style={{fontSize:"11px"}}>{item.date}</i></label><br/>
+                                            <button className='button is-primary' style={{float:'right'}} onClick={()=> this.removeNotificationFromFirebase(item)}>OK</button>
+                                        </div>
+                                    </div>})
+                                }                            
+                                </div>                         
+                        </Modal.Body>
+                    </Modal>
             </div>
         );
+    }
+
+
+    componentDidMount() {
+        this.loggedUser = JSON.parse(localStorage.getItem('user'))
+
+        if(!UserService.isExpired()){
+            firebase.database().ref('notifications/').on('value', (resp) => {
+                this.setState({
+                    notifications: snapshotToArray(resp).filter(x => x.ownerUsername === this.state.loggedUser.username)
+                })
+            });
+        }
     }
 }
 
