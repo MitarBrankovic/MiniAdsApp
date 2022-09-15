@@ -69,7 +69,6 @@ class Register extends Component {
 
     redirectLogin(){
         this.props.history.push('/login');
-        window.location.reload()
     }
 
 

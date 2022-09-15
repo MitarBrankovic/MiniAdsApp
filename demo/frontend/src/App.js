@@ -13,6 +13,7 @@ import Register from './components/Register';
 import SelectedAd from './components/SelectedAd';
 import AddNewAd from './components/AddNewAd';
 import AllUsers from './components/AllUsers';
+import createHistory from 'history/createBrowserHistory';
 
 import firebase from 'firebase/compat/app';
 import Messages from './components/Messages';
@@ -28,13 +29,15 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 
+const history = createHistory();  
+
 function App() {
   return (
     <div>
-        <Router>
+        <Router history={history}>
               <Navbar />
                 <div className="container">
-                    <Switch> 
+                    <Switch>
                           <Route path = "/" exact component = {HomePage}></Route>
                           <Route path = "/login" component = {Login}></Route>
                           <Route path = "/register" component = {Register}></Route>

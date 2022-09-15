@@ -45,27 +45,22 @@ class Navbar extends Component {
 
     redirectHome(){
         this.props.history.push('/');
-        window.location.reload()
     }
     
     redirectLogin(){
         this.props.history.push('/login');
-        window.location.reload()
     }
 
     redirectRegister(){
         this.props.history.push('/register');
-        window.location.reload()
     }
 
     redirectAddNewAd(){
         this.props.history.push('/addNewAd');
-        window.location.reload()
     }
 
     redirectAllUsers(){
         this.props.history.push('/allUsers');
-        window.location.reload()
     }
 
     redirectMessages(roomname){

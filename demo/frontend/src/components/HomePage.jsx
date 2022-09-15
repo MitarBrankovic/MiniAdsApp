@@ -124,7 +124,6 @@ class HomePage extends Component {
 
     redirectAd(ad){
         this.props.history.push(`/selectedAd/${ad.id}`)
-        window.location.reload();
     }
 
 

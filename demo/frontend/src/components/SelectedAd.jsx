@@ -176,11 +176,10 @@ class SelectedAd extends Component {
                 AdService.deleteAd(this.state.ad.id).then(()=>{
                     Swal.fire(
                         'Deleted!',
-                        'Your file has been deleted.',
+                        'Your ad has been deleted.',
                         'success'
                       )
                     this.props.history.push('/');
-                    setTimeout(function(){window.location.reload()}, 1000);
                 }).catch(err=>{
                     console.log(err);
                 })
@@ -309,7 +308,6 @@ class SelectedAd extends Component {
 
     redirectMessages(roomname){
         this.props.history.push(`/messages/${roomname}`)
-        window.location.reload();
     }
 
 
