@@ -201,12 +201,19 @@ class SelectedAd extends Component {
               const userRef = firebase.database().ref('roomusers/' + user.key);
               userRef.update({status: 'online'});
             } else {
-              const newroomuser = { roomname: '', username: '', status: '' };
-              newroomuser.roomname = this.state.roomname;
-              newroomuser.username = this.state.loggedUser.username;
-              newroomuser.status = 'online';
+              const firstUser = { roomname: '', username: '', status: '' };
+              firstUser.roomname = this.state.roomname;
+              firstUser.username = this.state.loggedUser.username;
+              firstUser.status = 'online';
               const newRoomUser = firebase.database().ref('roomusers/').push();
-              newRoomUser.set(newroomuser);
+              newRoomUser.set(firstUser);
+
+              const secondUser = { roomname: '', username: '', status: '' };
+              secondUser.roomname = this.state.roomname;
+              secondUser.username = this.state.owner.username;
+              secondUser.status = 'offline';
+              const newRoomUser2 = firebase.database().ref('roomusers/').push();
+              newRoomUser2.set(secondUser);
             }
             this.redirectMessages(this.state.roomname)
           });    
@@ -230,27 +237,16 @@ class SelectedAd extends Component {
     }
 
     notification(){
-       firebase.database().ref('notifications/').orderByChild('username').on('value', (resp) => {
-
-            let notificationsByUser = [];
-            notificationsByUser = snapshotToArray(resp);
-            let date = new Date().toLocaleString();
-            const thisNotification = notificationsByUser.find(x => x.username === this.state.loggedUser.username && x.date === date);
-            if (thisNotification !== undefined) {
-                setTimeout(function(){window.location.reload()}, 300);
-            }else{
-                const newNotification = { ownerUsername: '', adName:'', biddingPrice: '', type: '', date: '', username: '' };
-                newNotification.ownerUsername = this.state.owner.username;
-                newNotification.adName = this.state.ad.name;
-                newNotification.biddingPrice = this.state.biddingPrice;
-                newNotification.type = 'bidding';
-                newNotification.date = new Date().toLocaleString();
-                newNotification.username = this.state.loggedUser.username;
-                const addNewNotif = firebase.database().ref('notifications/').push();
-                addNewNotif.set(newNotification);
-                setTimeout(function(){window.location.reload()}, 300);
-            }
-        })
+        const newNotification = { ownerUsername: '', adName:'', biddingPrice: '', type: '', date: '', username: '' };
+        newNotification.ownerUsername = this.state.owner.username;
+        newNotification.adName = this.state.ad.name;
+        newNotification.biddingPrice = this.state.biddingPrice;
+        newNotification.type = 'bidding';
+        newNotification.date = new Date().toLocaleString();
+        newNotification.username = this.state.loggedUser.username;
+        const addNewNotif = firebase.database().ref('notifications/').push();
+        addNewNotif.set(newNotification);
+        setTimeout(function(){window.location.reload()}, 300);
     }
 
     bid(){
@@ -264,7 +260,6 @@ class SelectedAd extends Component {
             BiddingService.bid(dto).then(()=>{
                 UserService.swalSuccess('Bid successfully placed!')
                 this.notification();
-                //setTimeout(function(){window.location.reload()}, 500);
             }).catch(err=>{
                 UserService.swalError('Your bid has not been placed.')
             })

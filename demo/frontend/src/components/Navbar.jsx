@@ -68,6 +68,21 @@ class Navbar extends Component {
         window.location.reload()
     }
 
+    redirectMessages(roomname){
+
+        firebase.database().ref('roomusers/').orderByChild('roomname').on('value', (resp) => {   
+            let roomuser = [];
+            roomuser = snapshotToArray(resp);
+            const user = roomuser.find(x => x.roomname === roomname && x.username === this.state.loggedUser.username);
+            if (user !== undefined) {
+              const userRef = firebase.database().ref('roomusers/' + user.key);
+              userRef.update({status: 'online'});
+            }
+            this.props.history.push(`/messages/${roomname}`)
+            window.location.reload();
+          });  
+    }
+
     logout(){
         localStorage.removeItem('user')
         localStorage.removeItem('token')
@@ -203,8 +218,18 @@ class Navbar extends Component {
                                 this.state.notifications.map(item =>{
                                     return <div className="card-content" key={item.date} style={{borderBottom: "1px solid"}}>
                                         <div className="content">
-                                            <label style={{fontSize:"14px"}}><b>{item.username}</b> bid <b>{item.biddingPrice}RSD</b> on item "{item.adName}" at <i style={{fontSize:"11px"}}>{item.date}</i></label><br/>
-                                            <button className='button is-primary' style={{float:'right'}} onClick={()=> this.removeNotificationFromFirebase(item)}>OK</button>
+                                            {item.type == "bidding" ?
+                                            <div>
+                                                <label style={{fontSize:"14px"}}><b>{item.username}</b> bid <b>{item.biddingPrice}RSD</b> on item "{item.adName}" at <i style={{fontSize:"11px"}}>{item.date}</i></label><br/>
+                                                <button className='button is-primary' style={{float:'right'}} onClick={()=> this.removeNotificationFromFirebase(item)}>OK</button>
+                                            </div>:
+
+                                            <div>
+                                                <label style={{fontSize:"14px"}}><b>{item.username}</b> sent you message.</label><br/>
+                                                <button className='button is-primary' style={{float:'right'}} onClick={()=> this.redirectMessages(item.adName)}>View</button>
+                                            </div>
+                                            }
+                                            
                                         </div>
                                     </div>})
                                 }                            

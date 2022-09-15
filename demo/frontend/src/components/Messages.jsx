@@ -30,6 +30,7 @@ class Messages extends Component {
             message : '',
             users : [],
             chats : [],
+            notifications : [],
         }
 
         if(this.state.loggedUser === null){
@@ -39,7 +40,6 @@ class Messages extends Component {
 
         this.state.username = this.state.loggedUser.username;
         this.state.roomname = window.location.pathname.split('/')[2];
-
 
         this.changeMessageHandler = this.changeMessageHandler.bind(this);
     }
@@ -51,14 +51,35 @@ class Messages extends Component {
     onFormSubmit(e) {
         e.preventDefault()
         if(this.state.message != null && this.state.message != ""){
-          const chat = {};
-          chat.roomname = this.state.roomname;
-          chat.username = this.state.username;
-          chat.message = this.state.message;
-          chat.date = Moment(new Date()).format('DD.MM.YYYY. HH:mm:ss.SSS');
-          chat.type = 'message';
-          const newMessage = firebase.database().ref('chats/').push();
-          newMessage.set(chat);
+            const chat = {};
+            chat.roomname = this.state.roomname;
+            chat.username = this.state.username;
+            chat.message = this.state.message;
+            chat.date = Moment(new Date()).format('DD.MM.YYYY. HH:mm:ss.SSS');
+            chat.type = 'message';
+            const newMessage = firebase.database().ref('chats/').push();
+            newMessage.set(chat);
+
+            //ako ne postoji obavestenje da je korisnik poslao poruku, napravi ga
+            var found = false;
+            this.state.notifications.forEach(item => {
+                if(item.adName === this.state.roomname){
+                    found = true;
+                }
+            });
+
+            if(!found){
+                const newNotification = { ownerUsername: '', adName:'', biddingPrice: '', type: '', date: '', username: '' };
+                newNotification.ownerUsername = this.state.roomname.replace(this.state.loggedUser.username, '');
+                newNotification.adName = this.state.roomname;
+                newNotification.biddingPrice = '';
+                newNotification.type = 'message';
+                newNotification.date = new Date().toLocaleString();
+                newNotification.username = this.state.loggedUser.username;
+                const addNewNotif = firebase.database().ref('notifications/').push();
+                addNewNotif.set(newNotification);
+            }
+            this.state.message = '';
         }
       }
 
@@ -67,12 +88,12 @@ class Messages extends Component {
             <div>
                 <h1 className='mt-3' style={{textAlign:"center"}}>Messaging</h1>
                 <div className="mt-1 columns">
-                    <div className="column is-one-fifth chat-window">
+                    <div className="column is-one-fifth chat-window" style={{borderRight: "1px solid"}}>
                         <div className=" mt-5 ">
                         {                                
                         this.state.users.map(item =>{
                         return  <div className="card mt-3" key={item.username} style={{"borderWidth": "1px", "borderStyle": "solid", "borderColor": "turquoise", "backgroundColor": "#FAFAFA"}}>
-                                    <span className="username"><i className="bi bi-person-circle"></i> {item.username}</span><br/><br/>
+                                    <span className="username"><i className="bi bi-person-circle"></i> {item.username} <span style={{color: item.status == 'online' ? "Chartreuse" : "red"}}>●</span></span><br/><br/>
                                 </div>
                         })}
                         </div>
@@ -133,6 +154,20 @@ class Messages extends Component {
                 users: snapshotToArray(resp2)
             })
         });
+
+        if(!UserService.isExpired()){
+            firebase.database().ref('notifications/').on('value', (resp) => {
+                this.setState({
+                    notifications: snapshotToArray(resp).filter(x => x.username === this.state.loggedUser.username)
+                })
+
+                //obrisi notifikacije za poruke kada su vidjene
+                let myNotications = snapshotToArray(resp).filter(x => x.ownerUsername === this.state.loggedUser.username && x.adName === this.state.roomname);
+                myNotications.forEach(item => {
+                    firebase.database().ref('notifications/' + item.key).remove();
+                });
+            });
+        }
 
         if(UserService.isExpired()){
             this.props.history.push(`/`)
